@@ -1,0 +1,3 @@
+Clone the git repository and open the folder
+Start the android emulator
+run the command: npm run android
