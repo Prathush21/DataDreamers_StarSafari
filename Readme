@@ -1,3 +1,4 @@
 Clone the git repository and open the folder
+npm install
 Start the android emulator
 run the command: npm run android
