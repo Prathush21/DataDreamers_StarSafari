@@ -1,6 +1,7 @@
 import AppBar from "./components/appbar";
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SeatReservation from "./components/seat_reservation";
 
 const Stack = createNativeStackNavigator();
 
@@ -11,8 +12,8 @@ export default function App() {
       <Stack.Navigator screenOptions={{header:AppBar}}>
         <Stack.Screen
           name="Home"
-          component={AppBar}
-          options={{title:'Star Safari'}}
+          component={SeatReservation}
+          // options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
