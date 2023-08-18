@@ -28,7 +28,7 @@ export default function App() {
         /> */}
       <Stack.Screen
           name="Home"
-          component={Home}
+          component={HomeScreen}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
