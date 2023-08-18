@@ -4,6 +4,8 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DestinationInfo from "./components/destination_info";
 import TravelDetails from "./components/travel_details";
+import SeatReservation from "./components/seat_reservation";
+
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -30,7 +32,6 @@ export default function App() {
           name="Home"
           component={HomeScreen}
           options={{title:'Star Safari'}}
-
         />
       </Stack.Navigator>
     </NavigationContainer>
