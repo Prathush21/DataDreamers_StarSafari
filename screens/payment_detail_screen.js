@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Pressable,TouchableOpacity,Image, } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
 const PaymentDetailScreen = () => {
@@ -9,86 +10,131 @@ const PaymentDetailScreen = () => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
 
-  const totalCost = 500; 
-  const totalTax = 50; 
+  const totalCost = 500;
+  const totalTax = 50;
   const totalAmount = totalCost + totalTax;
 
   const handlePayment = () => {
-  
+
   };
 
+  const paymentMethods = [
+    { label: 'Pay Later', value: 'paylater' },
+    { label: 'Visa', value: 'visa' },
+    { label: 'MasterCard', value: 'mastercard' },
+    { label: 'PayPal', value: 'paypal' },
+    
+  ];
+
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Payment Details</Text>
-      <Text style={styles.label}>Choose your payment option</Text>
-      <View style={styles.paymentOptions}>
-        <Picker
-          selectedValue={paymentOption}
-          onValueChange={(itemValue) => setPaymentOption(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Pay on Arrival" value="payOnArrival" />
-          <Picker.Item label="Visa" value="visa" />
-          <Picker.Item label="MasterCard" value="mastercard" />
-          <Picker.Item label="PayPal" value="paypal" />
-        </Picker>
-      </View>
+    <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
+      <View
+        style={{
+          margin: 20,
+          borderStyle: "solid",
+          borderWidth: 1,
+          borderRadius: 7,
+          paddingBottom: 20,
+        }}
+      >
+        <Text style={styles.header}>Payment Details</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 5, marginLeft: 20 }}>Choose your payment option</Text>
 
-      {paymentOption !== 'payOnArrival' && (
-        <View style={styles.cardDetailsForm}>
-             <View style={styles.formField}>
-            <Text style={styles.label}>Cardholder Name</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter cardholder name"
-              value={cardNumber}
-              onChangeText={setCardNumber}
-            />
-          </View>
-          <View style={styles.formField}>
-            <Text style={styles.label}>Card Number</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter card number"
-              value={cardNumber}
-              onChangeText={setCardNumber}
-            />
-          </View>
-          <View style={styles.formField}>
-            <Text style={styles.label}>Expiry Date</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="MM/YY"
-              value={expiryDate}
-              onChangeText={setExpiryDate}
-            />
-          </View>
-          <View style={styles.formField}>
-            <Text style={styles.label}>CVV</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter CVV"
-              value={cvv}
-              onChangeText={setCVV}
-              secureTextEntry
-            />
-          </View>
+        <View style={styles.paymentMethodContainer}>
+          {paymentMethods.map(method => (
+            <TouchableOpacity
+              key={method.value}
+              style={[
+                styles.paymentMethodCard,
+                method.value === paymentOption && styles.selectedPaymentMethodCard,
+              ]}
+              onPress={() => setPaymentOption(method.value)}
+            >
+              {method.value=='paylater' ? (
+                <Text style={styles.paymentMethodText}>Pay Later</Text>
+              ): (
+                <>
+                <Image
+                source={
+                  method.value === 'visa'
+                    ? require('../assets/visa_logo.jpeg')
+                    : method.value === 'mastercard'
+                      ? require('../assets/mastercard_logo.jpeg')
+                      : method.value === 'paypal'
+                        ? require('../assets/paypal_logo.png')
+                        : require('../assets/visa_logo.jpeg')
+                }
+                style={styles.paymentMethodLogo}
+              />
+              {/* <Text style={styles.paymentMethodText}>{method.label}</Text> */}
+                </>
+              )}
+              
+            </TouchableOpacity>
+          ))}
         </View>
-      )}
 
-      <View style={styles.costBreakdown}>
-        <Text>Total Cost: ${totalCost}</Text>
-        <Text>Total Tax: ${totalTax}</Text>
-        <View style={styles.line}></View> 
-        <Text>Total Amount: ${totalAmount}</Text>
+        {paymentOption !== 'paylater' && (
+          <View style={styles.cardDetailsForm}>
+            <View style={styles.formField}>
+              <Text style={styles.label}>Cardholder Name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter cardholder name"
+                value={cardNumber}
+                onChangeText={setCardNumber}
+              />
+            </View>
+            <View style={styles.formField}>
+              <Text style={styles.label}>Card Number</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter card number"
+                value={cardNumber}
+                onChangeText={setCardNumber}
+              />
+            </View>
+            <View style={styles.formField}>
+              <Text style={styles.label}>Expiry Date</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="MM/YY"
+                value={expiryDate}
+                onChangeText={setExpiryDate}
+              />
+            </View>
+            <View style={styles.formField}>
+              <Text style={styles.label}>CVV</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter CVV"
+                value={cvv}
+                onChangeText={setCVV}
+                secureTextEntry
+              />
+            </View>
+          </View>
+        )}
+
+        <View style={styles.costBreakdown}>
+          <Text>Total Cost: ${totalCost}</Text>
+          <Text>Total Tax: ${totalTax}</Text>
+          <View style={styles.line}></View>
+          <Text>Total Amount: ${totalAmount}</Text>
+        </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-            <Button title="Cancel" onPress={() => console.log('Cancel pressed')} />
-            <View style={{width:20}}/>
-            <Button title="Pay Now" onPress={handlePayment} />
-          </View>
-    </View>
+      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+        <Pressable style={styles.cancelbutton}>
+          <Text>Cancel</Text>
+        </Pressable>
+        <Pressable style={styles.confirmbutton}>
+          <Text>Confirm</Text>
+        </Pressable>
+      </View>
+
+    </SafeAreaProvider>
   );
 };
 
@@ -105,34 +151,48 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: 'center'
-   
+
   },
-  paymentOptions: {
+  paymentMethodContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
-    marginBottom: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center'
+    margin:10
   },
-  picker: {
+  paymentMethodCard: {
     flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  selectedPaymentMethodCard: {
+    borderColor: 'blue',
+  },
+  paymentMethodLogo: {
+    width: 50,
+    height: 30,
+    marginBottom: 5,
+  },
+  paymentMethodText: {
+    margin: 5,
+    fontWeight: 'bold',
   },
   cardDetailsForm: {
-    marginBottom: 20,
-    textAlign:'left',
+    marginBottom: 10,
+    textAlign: 'left',
+    marginLeft: 20
   },
   formField: {
-    marginBottom: 10,
-    textAlign:'left',
+    marginBottom: 6,
+    textAlign: 'left',
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    
+    // marginLeft:20
+
   },
   input: {
     width: '80%',
@@ -142,7 +202,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-    textAlign:'left',
+    textAlign: 'left',
   },
   costBreakdown: {
     width: '80%',
@@ -152,13 +212,34 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     alignItems: 'center',
+    marginLeft: 20
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 20,
-   
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    marginVertical: 5,
   },
+  confirmbutton: {
+    alignItems: "center",
+    paddingVertical: 12,
+    borderRadius: 20,
+    elevation: 3,
+    backgroundColor: "#09E488",
+    width: 125,
+    alignSelf: "center",
+    marginLeft: 20,
+  },
+
+  cancelbutton: {
+    alignItems: "center",
+    paddingVertical: 12,
+    borderRadius: 20,
+    elevation: 3,
+    backgroundColor: "#8E929B",
+    width: 125,
+    alignSelf: "center",
+  },
+
 });
 
 export default PaymentDetailScreen;
