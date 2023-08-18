@@ -14,6 +14,9 @@ import { Card, Divider } from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+
+
+
 const TravelDetails = () => {
   const [departureDate, setDepartureDate] = React.useState(new Date());
   const [travelDetails, onChangeTravelDetails] = React.useState(null);
@@ -200,7 +203,8 @@ const TravelDetails = () => {
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
             locale="en"
-          />
+          /> 
+          
         </View>
 
         <Text style={{ marginLeft: 10, fontSize: 15, marginTop:20 }}>
