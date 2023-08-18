@@ -80,7 +80,7 @@ const SeatReservation = () => {
         <SafeAreaView style={styles.areacontainer}>
             <View style={styles.container}>
                 <Text style={styles.title}>Choose Your Seats</Text>
-                <Text style={styles.title}>Number of Passengers: 1 Adult</Text>
+                <Text style={styles.label}>Number of Passengers: 1 Adult</Text>
                 <View style={styles.legendContainer}>
                     <View style={[styles.legendItem, styles.availableLegend]} />
                     <Text style={styles.legendText}>Available</Text>
@@ -102,13 +102,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#f6fafd',
     },
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+      flex: 1,
+      padding: 5,
+      paddingTop: 40,
+      alignItems: 'center',
+      // justifyContent: 'center',
     },
     title: {
-        fontSize: 24,
-        marginBottom: 20,
+      fontSize: 30,
+      fontWeight: "bold",
+      marginBottom: 20,
+    },
+    label: {
+      fontSize: 24,
+      marginBottom: 15,
+      
     },
     legendContainer: {
         flexDirection: 'row',
