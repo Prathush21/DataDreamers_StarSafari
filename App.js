@@ -4,7 +4,8 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DestinationInfo from "./components/destination_info";
 import TravelDetails from "./components/travel_details";
-import SeatReservation from "./components/seat_reservation";
+import SeatReservation from "./screens/seat_reservation";
+import PaymentDetailScreen from "./screens/payment_detail_screen";
 
 
 const Stack = createNativeStackNavigator();
@@ -26,8 +27,8 @@ export default function App() {
           component={DestinationInfo}
         /> */}
       <Stack.Screen
-          name="TravelDetails"
-          component={TravelDetails}
+          name="Home"
+          component={HomeScreen}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
