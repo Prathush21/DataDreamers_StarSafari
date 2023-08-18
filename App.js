@@ -25,7 +25,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{header:AppBar}}>
         <Stack.Screen
           name="Home"
-          component={BookingConfirmation}
+          component={HomeScreen}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
