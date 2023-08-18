@@ -28,9 +28,6 @@ export default function App() {
       <Stack.Screen
           name="TravelDetails"
           component={TravelDetails}
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
