@@ -1,9 +1,9 @@
 import AppBar from "./components/appbar";
+import DestinationInfo from "./components/destination_info";
+import TravelDetails from "./components/travel_details";
 import HomeScreen from "./screens/homescreen";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DestinationInfo from "./components/destination_info";
-import TravelDetails from "./components/travel_details";
 import SeatReservation from "./screens/seat_reservation";
 import PaymentDetailScreen from "./screens/payment_detail_screen";
 
@@ -22,13 +22,9 @@ export default function App() {
 
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator screenOptions={{header:AppBar}}>
-        {/* <Stack.Screen
-          name="DestinationInfo"
-          component={DestinationInfo}
-        /> */}
-      <Stack.Screen
+        <Stack.Screen
           name="Home"
-          component={HomeScreen}
+          component={TravelDetails}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
@@ -36,4 +32,3 @@ export default function App() {
    
   );
 }
-
