@@ -6,6 +6,7 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SeatReservation from "./screens/seat_reservation";
 import PaymentDetailScreen from "./screens/payment_detail_screen";
+import BookingConfirmation from "./screens/booking_confirmation";
 
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +25,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{header:AppBar}}>
         <Stack.Screen
           name="Home"
-          component={TravelDetails}
+          component={BookingConfirmation}
           options={{title:'Star Safari'}}
         />
       </Stack.Navigator>
