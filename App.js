@@ -11,8 +11,6 @@ import * as Font from "expo-font";
 import { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 
-
-
 const Stack = createNativeStackNavigator();
 const MyTheme = {
   ...DefaultTheme,
@@ -33,7 +31,6 @@ export default function App() {
       "Raleway-Italic": require("./assets/fonts/Raleway-Italic.ttf"),
     });
     setFontsLoaded(true);
-
   };
 
   useEffect(() => {
@@ -48,7 +45,6 @@ export default function App() {
     );
   }
 
-
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator screenOptions={{ header: AppBar }}>
@@ -57,6 +53,7 @@ export default function App() {
           component={DestinationInfo}
           options={{ title: "Star Safari" }}
         />
+        <Stack.Screen name="TravelDetails" component={TravelDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

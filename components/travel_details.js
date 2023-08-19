@@ -17,7 +17,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 
-const TravelDetails = () => {
+const TravelDetails = ({navigation}) => {
   const [departureDate, setDepartureDate] = React.useState(new Date());
   const [travelDetails, onChangeTravelDetails] = React.useState(null);
   const [selectedTime, setSelectedTime] = React.useState("Select Time");

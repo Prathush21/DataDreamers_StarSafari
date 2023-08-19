@@ -36,7 +36,7 @@ const renderItem = ({ item }) => (
   </View>
 );
 
-const DestinationInfo = () => (
+const DestinationInfo = ({navigation}) => (
   <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
     <Text style={styles.titleText}>Mars</Text>
     <Card style={styles.card}>
@@ -51,7 +51,11 @@ const DestinationInfo = () => (
         horizontal
         showsHorizontalScrollIndicator={true}
       />
-      <Pressable style={styles.button}>
+      <Pressable style={styles.button}
+      onPress={() =>
+        navigation.navigate('TravelDetails')
+      }
+      >
         <Text>Book Now</Text>
       </Pressable>
     </View>
