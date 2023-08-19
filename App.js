@@ -1,6 +1,6 @@
 import AppBar from "./components/appbar";
-import DestinationInfo from "./components/destination_info";
-import TravelDetails from "./components/travel_details";
+import DestinationInfo from "./screens/destination_info";
+import TravelDetails from "./screens/travel_details";
 import HomeScreen from "./screens/homescreen";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
