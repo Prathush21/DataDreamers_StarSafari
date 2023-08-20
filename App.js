@@ -82,6 +82,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-App.navigationOptions = {
-  headerTransparent: true
-};

@@ -23,7 +23,7 @@ const HomeScreen = () => {
   return (
     <ImageBackground
       source={require("../assets/images/nightsky.jpg")}
-      style={styles.container}
+      style={styles.backgroundImage}
 
     >
     <ScrollView >
@@ -39,12 +39,11 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? 60 : 80,
-  }
+    resizeMode: "cover", // You can change the resizeMode as needed
+  },
 });
-
 
 
 
