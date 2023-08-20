@@ -34,6 +34,7 @@ const HorizontalScroll = (props) => {
                   imageUri={imageMapping[object.name]}
                   name={object.name}
                   data={object}
+                  objCategory={props.title}
                 />
               );
             })}

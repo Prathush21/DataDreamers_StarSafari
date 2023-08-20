@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   Pressable,
-  Dimensions,
   View,
   FlatList,
   ImageBackground,
@@ -43,6 +42,27 @@ const imagesList = {
     culture: require("../assets/jupiter_culture.png"),
     climate: require("../assets/jupiter_climate.jpg"),
     tourist: require("../assets/jupiter_tourist.jpg"),
+  },
+
+  Saturn: {
+    image: require("../assets/saturn.gif"),
+    culture: require("../assets/saturn_culture.png"),
+    climate: require("../assets/saturn_climate.png"),
+    tourist: require("../assets/saturn_tourist.png"),
+  },
+
+  Venus: {
+    image: require("../assets/venus.gif"),
+    culture: require("../assets/venus_culture.png"),
+    climate: require("../assets/venus_climate.png"),
+    tourist: require("../assets/venus_tourist.png"),
+  },
+
+  Earth: {
+    image: require("../assets/earth.gif"),
+    culture: require("../assets/earth_culture.png"),
+    climate: require("../assets/earth_climate.jpg"),
+    tourist: require("../assets/earth_tourist.jpg"),
   },
 };
 
