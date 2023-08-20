@@ -36,6 +36,32 @@ const insertPlanet = (name) => {
       });
 };
 
+const insertTrip = (
+  vehicle_id,
+  departure_planet_id,
+  destination_planet_id,
+  price,
+  departure_datetime,
+  trip_facilities,
+  passenger_count
+) => {
+  db.transaction(tx => {
+      tx.executeSql(
+          'INSERT INTO trip (vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count) VALUES (?, ?, ?, ?, ?, ?, ?)',
+          [vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count],
+          (_, { rowsAffected, insertId }) => {
+              if (rowsAffected > 0) {
+                  console.log("Trip record inserted with ID:", {insertId});
+              }
+          },
+          (_, error) => {
+              console.log("Error inserting trip record:", error);
+          }
+      );
+  });
+};
+
+
 const insertBooking = (user_id, trip_id, is_paid,traveller_count, status, total_amount, seat_id) => {
   db.transaction(tx => {
       tx.executeSql(
@@ -104,6 +130,7 @@ const insertPassenger = (passport_number, booking_id, name) => {
     });
 };
 
+
 const dropDatabaseTables =  () => {
     try {
         db.transaction((tx) => {
@@ -115,6 +142,19 @@ const dropDatabaseTables =  () => {
             },
             (error) => {
               console.log("Error dropping table:", error);
+            }
+          );
+        });
+
+        db.transaction((tx) => {
+          tx.executeSql(
+            "Drop TABLE trip",
+            [],
+            () => {
+              console.log("Trip Table dropped successfully.");
+            },
+            (error) => {
+              console.log("Error dropping Trip table:", error);
             }
           );
         });
@@ -170,7 +210,7 @@ const dropDatabaseTables =  () => {
               }
             );
           });
-
+      
       } catch (error) {
         console.log("Error executing SQL statement:", error);
       }
@@ -191,6 +231,31 @@ const setupDatabase = () => {
       );
     });
 
+    db.transaction((tx) => {
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS trip (
+            trip_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            vehicle_id INTEGER,
+            price REAL,
+            departure_planet_id TEXT,
+            destination_planet_id TEXT,
+            departure_datetime TEXT,
+            trip_facilities TEXT,
+            passenger_count INTEGER,
+            FOREIGN KEY(vehicle_id) REFERENCES vehicle(vehicle_id),
+            FOREIGN KEY(departure_planet_id) REFERENCES planet(planet_id),
+            FOREIGN KEY(destination_planet_id) REFERENCES planet(planet_id)
+        )`,
+        [],
+        () => {
+            console.log("Trip Table created successfully.");
+        },
+        (error) => {
+            console.log("Error creating trip table:", error);
+        }
+      );
+    });
+    
     db.transaction((tx) => {
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS "booking" (
@@ -281,6 +346,7 @@ const setupDatabase = () => {
         console.log("Initializing tables")
         insertPlanet("Jupiter")
         insertPlanet("mars")
+        insertTrip(1, 2, 3, 250.0, '2023-09-01 10:00:00', 'Wi-Fi, Snacks', 5);
         insertBooking(1, 1, 1, 3, 'Upcoming', 2500.0, '1A,1B,1C')
         insertVehicle('NASA', 'nasa.png', 6, 5)
         insertVehicle('SpaceX', 'spacex.jpeg', 7, 4)
@@ -330,5 +396,6 @@ export const database = {
   insertPassenger,
   setupDatabase,
   dropDatabaseTables,
-  tableExists
+  tableExists,
+  insertTrip
 };
