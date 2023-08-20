@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Pressable,TouchableOpacity,Image, } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { database } from '../db/database';
 
 
 const PaymentDetailScreen = () => {
@@ -10,9 +11,20 @@ const PaymentDetailScreen = () => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
 
-  const totalCost = 500;
+  const [totalCost,setTotalCost]=useState(null)
   const totalTax = 50;
   const totalAmount = totalCost + totalTax;
+
+  useEffect(() => {
+    database.getTripAmount(1).then(price => {
+      if (price!=null){
+        console.log('price:',price)
+        setTotalCost(parseInt(price)*4)
+
+      }
+      
+    })
+  }, [])
 
   const handlePayment = () => {
 
