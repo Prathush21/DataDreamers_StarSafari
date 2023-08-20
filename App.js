@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SeatReservation from "./screens/seat_reservation";
 import PaymentDetailScreen from "./screens/payment_detail_screen";
 import BookingConfirmation from "./screens/booking_confirmation";
+import PersonalInfo from "./screens/personal_info";
 import useDatabase from "./hooks/useDatabase";
 import * as Font from "expo-font";
 import { useState, useEffect } from "react";
