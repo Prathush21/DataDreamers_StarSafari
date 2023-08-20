@@ -266,7 +266,7 @@ const TravelDetails = ({ route }) => {
           style={styles.confirmbutton}
           onPress={() =>
             navigation.navigate("SeatReservation", {
-              planet_name: planet_name,
+              planet: planet,
               trip: trip,
               passengers_count: passengers,
             })
