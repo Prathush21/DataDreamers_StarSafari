@@ -1,13 +1,31 @@
-import * as React from 'react';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
-const AppBar = () => (
-  <Appbar.Header style={{backgroundColor: 'rgba(246, 250, 253, 0.5)'}}>
-    <Appbar.Action icon="menu" onPress={() => {}} />
+const TransparentAppBar = () => (
+  <View style={styles.appBarContainer}>
+    <Appbar.Header style={styles.transparentAppBar}>
+      <Appbar.Action icon="menu" onPress={() => {}} />
+      <Appbar.Content title="Star Safari" titleStyle={styles.title} />
+      <Appbar.Action icon="magnify" onPress={() => {}} />
+    </Appbar.Header>
+  </View>
 
-    <Appbar.Content title="Star Safari" />
-    <Appbar.Action icon="magnify" onPress={() => {}} />
-  </Appbar.Header>
 );
 
-export default AppBar;
+const styles = StyleSheet.create({
+  appBarContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  transparentAppBar: {
+    backgroundColor: 'rgba(0, 0, 0, 0)', // Fully transparent
+  },
+  title: {
+    color: 'white',
+  },
+});
+
+export default TransparentAppBar;
