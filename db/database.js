@@ -150,6 +150,44 @@ const getRowColumnCount = (vehicle_id) => {
         })
           
         }
+
+const getBookingId = (
+          user_id,
+          trip_id,
+          is_paid,
+          traveller_count,
+          status,
+          total_amount,
+          seat_id
+        ) => {
+          return new Promise((resolve,reject) =>{
+            db.transaction((tx) => {
+              tx.executeSql(
+                "INSERT INTO booking (user_id, trip_id, is_paid,traveller_count, status, total_amount, seat_id) VALUES (?,?,?,?,?,?,?)",
+                [
+                  user_id,
+                  trip_id,
+                  is_paid,
+                  traveller_count,
+                  status,
+                  total_amount,
+                  seat_id,
+                ],
+                (_, { rowsAffected, insertId }) => {
+                  if (rowsAffected > 0) {
+                    console.log(insertId);
+                    resolve(insertId)
+  
+                  }
+                },
+                (_, error) => {
+                  console.log("Error inserting booking record:", error);
+                }
+              );
+            });
+          })
+          
+        };
   
 
 
@@ -612,5 +650,6 @@ export const database = {
   getVehicles,
   getReservedSeats,
   getTripAmount,
-  getRowColumnCount
+  getRowColumnCount,
+  getBookingId
 };

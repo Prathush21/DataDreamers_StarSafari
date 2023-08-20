@@ -40,20 +40,14 @@ const PersonalInfo = ({route}) => {
     console.log('INFO: Submitted personal info');
     console.log(passengers);
 
-    const outputArray = passengers.map(passenger => ({
-      name: passenger.name,
-      passportNumber: passenger.passportNumber,
-    }));
+    const outputArray = passengers.map(item => [item.name,item.passportNumber]);
+    console.log (outputArray)
 
     navigation.navigate("PaymentDetailScreen", {
       planet_name: planet_name,
       trip: trip,
       traveller_count: traveller_count,
       selected_seats: selected_seats,
-      full_name: fullName,
-      address: address,
-      contact_number: contactNumber,
-      dob: dob,
       passengers: outputArray,
     })
   };
