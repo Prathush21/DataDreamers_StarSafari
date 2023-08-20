@@ -11,18 +11,26 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card, Divider } from "react-native-paper";
-import { DatePickerInput } from "react-native-paper-dates";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { database } from "../db/database";
+import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-
-
-
-const TravelDetails = ({navigation}) => {
-  const [departureDate, setDepartureDate] = React.useState(new Date());
+const TravelDetails = ({ route }) => {
   const [travelDetails, onChangeTravelDetails] = React.useState(null);
   const [selectedTime, setSelectedTime] = React.useState(null);
   const [passengers, onChangePassengers] = React.useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  const [trips, settrips] = React.useState();
+  const [vehicles, setvehicles] = React.useState();
+  const [timeList, setTimeList] = React.useState();
+  const navigation = useNavigation();
+
+  const planet_name = route.params.planet_name;
+  const trip = route.params.trip;
+
+  useEffect(() => {
+    database.getVehicles(setvehicles);
+  }, []);
 
   const handleTimePress = (time) => {
     if (selectedTime === time) {
@@ -41,20 +49,10 @@ const TravelDetails = ({navigation}) => {
     });
     return formattedTime;
   }
-  const showTimePicker = () => {
-    setDatePickerVisibility(true);
-  };
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
-  const handleConfirm = (time) => {
-    time = formatTimeToHoursMins(time);
-    hideDatePicker();
-    setSelectedTime(time);
-  };
-  
 
   const styles = StyleSheet.create({
     titleText: {
@@ -91,6 +89,7 @@ const TravelDetails = ({navigation}) => {
       height: 5,
       alignSelf: "center",
       margin: 10,
+      marginRight: 5,
     },
     card: {
       borderRadius: 15,
@@ -149,7 +148,6 @@ const TravelDetails = ({navigation}) => {
       alignSelf: "center",
       marginLeft: 20,
     },
-
   });
 
   return (
@@ -161,8 +159,8 @@ const TravelDetails = ({navigation}) => {
           borderWidth: 1,
           borderRadius: 7,
           paddingBottom: 20,
-          marginBottom:10,
-          marginTop:5
+          marginBottom: 10,
+          marginTop: 5,
         }}
       >
         <Card style={styles.card}>
@@ -186,7 +184,7 @@ const TravelDetails = ({navigation}) => {
             style={styles.image2}
           />
 
-          <Text style={{ fontSize: 20, marginTop: 4 }}>Mars</Text>
+          <Text style={{ fontSize: 20, marginTop: 4 }}>{planet_name}</Text>
         </View>
         <View
           style={{
@@ -198,52 +196,36 @@ const TravelDetails = ({navigation}) => {
             USA Space Station
           </Text>
           <Text style={{ fontSize: 12, paddingLeft: 120 }}>
-            Mars Space Station
+            {planet_name} Space Station
           </Text>
         </View>
         <Divider bold style={{ backgroundColor: "black" }} />
-        <DatePickerInput
-          locale="en"
-          label="Departure Date"
-          value={departureDate}
-          mode="outlined"
-          onChange={(d) => setDepartureDate(d)}
-          inputMode="start"
-          style={{ backgroundColor: "#F6FAFD", margin: 8, marginBottom:20 }}
-          // mode="outlined" (see react-native-paper docs)
-        />
 
+        <Text style={{ marginLeft: 10, fontSize: 15, marginTop: 10 }}>
+          {" "}
+          Departure Date
+        </Text>
+
+        <TextInput
+          style={styles.input}
+          value={trip.departure_date}
+          numberOfLines={4}
+          editable={false}
+          selectTextOnFocus={false}
+        />
         <View
           style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
         ></View>
-        <Text style={{ marginLeft: 10, fontSize: 15, marginBottom:20 }}> Departure Time</Text>
-        <View style={{ flexDirection: "row" }}>
-      <Pressable
-        style={[
-          styles.timeCard,
-          { backgroundColor: isTimeSelected("08:00") ? "#09E488" : "#F6FAFD" },
-        ]}
-        onPress={() => handleTimePress("08:00")}
-      >
-        <Text style={{ color: isTimeSelected("08:00") ? "white" : "black", fontWeight: 'bold' }}>
-          08:00
-        </Text>
-      </Pressable>
+        <Text style={{ marginLeft: 10, fontSize: 15 }}> Departure Time</Text>
+        <TextInput
+          style={styles.input}
+          value={trip.departure_time}
+          numberOfLines={4}
+          editable={false}
+          selectTextOnFocus={false}
+        />
 
-      <Pressable
-        style={[
-          styles.timeCard,
-          { backgroundColor: isTimeSelected("16:00") ? "#09E488" : "#F6FAFD" },
-        ]}
-        onPress={() => handleTimePress("16:00")}
-      >
-        <Text style={{ color: isTimeSelected("16:00") ? "white" : "black", fontWeight: 'bold' }}>
-          16:00
-        </Text>
-      </Pressable>
-    </View>
-
-        <Text style={{ marginLeft: 10, fontSize: 15, marginTop:20 }}>
+        <Text style={{ marginLeft: 10, fontSize: 15, marginTop: 10 }}>
           {" "}
           Travel Package Details
         </Text>
@@ -251,11 +233,13 @@ const TravelDetails = ({navigation}) => {
         <TextInput
           style={styles.input}
           onChangeText={onChangeTravelDetails}
-          value={travelDetails}
+          value={trip.trip_facilities}
           numberOfLines={4}
-          multiline = {true}
+          multiline={true}
+          editable={false}
+          selectTextOnFocus={false}
         />
-        <Text style={{ marginLeft: 10, fontSize: 15, marginTop:20 }}>
+        <Text style={{ marginLeft: 10, fontSize: 15, marginTop: 10 }}>
           {" "}
           Number of Passengers
         </Text>
@@ -263,20 +247,31 @@ const TravelDetails = ({navigation}) => {
         <TextInput
           style={styles.input}
           onChangeText={onChangePassengers}
-          value={travelDetails}
+          value={passengers}
           numberOfLines={4}
-          multiline = {true}
+          multiline={true}
           keyboardType="numeric"
-
         />
-
-        
       </View>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
-        <Pressable style={styles.cancelbutton}>
+        <Pressable
+          style={styles.cancelbutton}
+          onPress={() =>
+            navigation.navigate("DestinationInfo", { planet: planet_name })
+          }
+        >
           <Text>Cancel</Text>
         </Pressable>
-        <Pressable style={styles.confirmbutton}>
+        <Pressable
+          style={styles.confirmbutton}
+          onPress={() =>
+            navigation.navigate("SeatReservation", {
+              planet_name: planet_name,
+              trip: trip,
+              passengers_count: passengers,
+            })
+          }
+        >
           <Text>Confirm</Text>
         </Pressable>
       </View>

@@ -12,6 +12,10 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { database } from "../db/database";
+
+
 
 const data = [
   {
@@ -47,8 +51,15 @@ const imagesList = {
 
 const DestinationInfo = ({ route }) => {
   const navigation = useNavigation();
+  const [trips, settrips] = React.useState();
+
 
   const planet = route.params.planet;
+
+  useEffect(() => {
+    database.getTrips(settrips);
+  }, []);
+
 
   const renderItem = ({ item }) => (
     <View style={styles.horizontalCard}>
@@ -110,7 +121,7 @@ const DestinationInfo = ({ route }) => {
         />
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("TravelDetails")}
+          onPress={() => navigation.navigate("TravelDetails", {planet_name: planet.planet_name, trip: trips[0]})}
         >
           <Text>Book Now</Text>
         </Pressable>
