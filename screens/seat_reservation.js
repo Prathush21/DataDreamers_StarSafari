@@ -38,7 +38,7 @@ const SeatReservation = ({route}) => {
 
   // const reservedSeats = ['2A','4B']
 
-  const seatLabels = ['A', 'B', 'C', 'D','E','F','G'];
+  const seatLabels = Array.from({length:26},(_,index)=>String.fromCharCode(65+index))
 
   const handleSeatSelection = (seatNumber) => {
     if (reservedSeats.includes(seatNumber)){

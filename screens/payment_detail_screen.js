@@ -3,22 +3,29 @@ import { View, Text, TextInput, Button, StyleSheet, Pressable,TouchableOpacity,I
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { database } from '../db/database';
+import { useNavigation } from "@react-navigation/native";
 
 
-const PaymentDetailScreen = () => {
+const PaymentDetailScreen = ({route}) => {
+
+  const { planet_name, trip, traveller_count, selected_seats,passengers } = route.params;
   const [paymentOption, setPaymentOption] = useState('payOnArrival');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
+  const [insertId,setInsertId]=useState(null)
 
   const [totalCost,setTotalCost]=useState(null)
+
+  var totalAmount=0
+  const navigation = useNavigation();
  
 
   useEffect(() => {
     database.getTripAmount(1).then(price => {
       if (price!=null){
         console.log('price:',price)
-        setTotalCost(parseInt(price)*4)
+        setTotalCost(parseInt(price)*traveller_count)
 
       }
       
@@ -26,6 +33,27 @@ const PaymentDetailScreen = () => {
   }, [])
 
   const handlePayment = () => {
+
+    database.getBookingId(1,1,0,traveller_count,'Upcoming',totalAmount,selected_seats).then(id=>{
+      setInsertId(id)
+      console.log(id)
+
+      const promises=passengers.map(tuple =>{
+        var [name,passportNumber] = tuple;
+        return database.insertPassenger(passportNumber,id,name)
+      })
+
+      return Promise.all(promises).then(()=>{
+        console.log('All data inserted')
+        navigation.navigate("BookingConfirmation", {
+          planet_name: planet_name,
+          trip: trip,
+          traveller_count: traveller_count,
+          total_amount: totalAmount
+        })
+
+      })
+    })
 
   };
 
@@ -38,7 +66,7 @@ const PaymentDetailScreen = () => {
   ];
 
   const totalTax = Math.floor((totalCost*10)/100);
-  const totalAmount = totalCost + totalTax;
+  totalAmount = totalCost + totalTax;
 
 
   return (
@@ -143,7 +171,7 @@ const PaymentDetailScreen = () => {
         <Pressable style={styles.cancelbutton}>
           <Text>Cancel</Text>
         </Pressable>
-        <Pressable style={styles.confirmbutton}>
+        <Pressable style={styles.confirmbutton} onPress={handlePayment}>
           <Text>Confirm</Text>
         </Pressable>
       </View>
