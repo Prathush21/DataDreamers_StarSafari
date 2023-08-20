@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   Pressable,
-  Dimensions,
   View,
   FlatList,
   ImageBackground,
@@ -44,6 +43,27 @@ const imagesList = {
     climate: require("../assets/jupiter_climate.jpg"),
     tourist: require("../assets/jupiter_tourist.jpg"),
   },
+
+  Saturn: {
+    image: require("../assets/saturn.gif"),
+    culture: require("../assets/saturn_culture.png"),
+    climate: require("../assets/saturn_climate.png"),
+    tourist: require("../assets/saturn_tourist.png"),
+  },
+
+  Venus: {
+    image: require("../assets/venus.gif"),
+    culture: require("../assets/venus_culture.png"),
+    climate: require("../assets/venus_climate.png"),
+    tourist: require("../assets/venus_tourist.png"),
+  },
+
+  Earth: {
+    image: require("../assets/earth.gif"),
+    culture: require("../assets/earth_culture.png"),
+    climate: require("../assets/earth_climate.jpg"),
+    tourist: require("../assets/earth_tourist.jpg"),
+  },
 };
 
 const DestinationInfo = ({ route }) => {
@@ -66,19 +86,19 @@ const DestinationInfo = ({ route }) => {
       <Text style={styles.cardTitle}>{item.title}</Text>
       {item.title === "Culture" && (
         <Image
-          source={imagesList[planet.planet_name].culture}
+          source={imagesList[planet.name].culture}
           style={styles.cardImage}
         />
       )}
       {item.title === "Climate" && (
         <Image
-          source={imagesList[planet.planet_name].climate}
+          source={imagesList[planet.name].climate}
           style={styles.cardImage}
         />
       )}
       {item.title === "Tourist Attractions" && (
         <Image
-          source={imagesList[planet.planet_name].tourist}
+          source={imagesList[planet.name].tourist}
           style={styles.cardImage}
         />
       )}
@@ -114,10 +134,10 @@ const DestinationInfo = ({ route }) => {
         resizeMode="stretch"
         style={styles.img}
       >
-        <Text style={styles.titleText}>{planet.planet_name}</Text>
+        <Text style={styles.titleText}>{planet.name}</Text>
         <Card style={styles.card}>
           <Image
-            source={imagesList[planet.planet_name].image}
+            source={imagesList[planet.name].image}
             style={styles.image}
           />
         </Card>

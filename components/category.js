@@ -11,13 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 const Category = (props) => {
 
     const navigation = useNavigation();
+    const planet_data = props.data
 
     const handleCategoryClick = () => {
-        navigation.navigate("DestinationInfo", { planet: props.data });
+        navigation.navigate("DestinationInfo", { planet: planet_data });
       };
 
         return (
-            <TouchableOpacity style={styles.categoryContainer} onPress={handleCategoryClick}>
+            <TouchableOpacity style={styles.categoryContainer} onPress={handleCategoryClick} disabled = {props.objCategory!='Planets'}>
 
             <View style={styles.view1}>
                 <View style={styles.view2} elevation={0} >

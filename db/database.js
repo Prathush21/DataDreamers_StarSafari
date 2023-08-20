@@ -508,7 +508,7 @@ const setupDatabase = () => {
     .then((length) => {
       if (length === 0) {
         console.log("Initializing tables");
-        insertTrip(1, 2, 3, 250.0, "2023-09-01 10:00:00", "Wi-Fi, Snacks", 5);
+        insertTrip(1, 2, 3, 250.0, "2023-09-01", "10:00:00", "Wi-Fi, Snacks", 5);
         insertBooking(1, 1, 1, 3, "Upcoming", 2500.0, "1A,1B,1C");
         insertVehicle("NASA", "../assets/images/nasa.png", 6, 5);
         insertVehicle("SpaceX", "../assets/images/spacex.jpeg", 7, 4);
