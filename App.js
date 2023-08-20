@@ -24,10 +24,6 @@ const MyTheme = {
 
 export default function App() {
   const dbLoaded = useDatabase();
-
-  if (!dbLoaded) {
-    return <Text>Initializing...</Text>;
-  }
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const fetchFonts = async () => {
@@ -43,12 +39,8 @@ export default function App() {
     fetchFonts();
   }, []);
 
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+  if (!dbLoaded || !fontsLoaded) {
+    return <Text>Initializing...</Text>;
   }
 
   return (
@@ -57,7 +49,6 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-
           options={{ title: "Star Safari" }}
         />
         <Stack.Screen name="TravelDetails" component={TravelDetails} />
