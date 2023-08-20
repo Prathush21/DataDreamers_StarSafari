@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text, ImageBackground, SafeAreaProvider }
 import HorizontalScroll from "../components/HorizontalScroll";
 import { database } from "../db/database";
 const HomeScreen = () => {
+ 
   const [planets, setplanets] = useState()
   const [vehicles, setvehicles] = useState()
 
@@ -22,7 +23,8 @@ const HomeScreen = () => {
   return (
     <ImageBackground
       source={require("../assets/images/nightsky.jpg")}
-      style={styles.backgroundImage}
+      style={styles.container}
+
     >
     <ScrollView >
       
@@ -37,10 +39,13 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  container: {
     flex: 1,
-    resizeMode: "cover", // You can change the resizeMode as needed
-  },
+    paddingTop: Platform.OS === 'ios' ? 60 : 80,
+  }
 });
+
+
+
 
 export default HomeScreen;
