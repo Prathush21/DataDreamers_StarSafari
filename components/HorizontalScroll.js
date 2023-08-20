@@ -32,6 +32,7 @@ const HorizontalScroll = (props) => {
                   key={index}
                   imageUri={require("../assets/images/nasa.jpg")}
                   name={object.planet_name}
+                  data = {object}
                 />
               );
             })}

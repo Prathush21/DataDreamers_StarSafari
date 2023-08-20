@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SeatReservation from "./screens/seat_reservation";
 import PaymentDetailScreen from "./screens/payment_detail_screen";
 import BookingConfirmation from "./screens/booking_confirmation";
+import PersonalInfo from "./screens/personal_info";
 import useDatabase from "./hooks/useDatabase";
 import * as Font from "expo-font";
 import { useState, useEffect } from "react";
@@ -49,6 +50,11 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          options={{ title: "Star Safari" }}
+        />
+        <Stack.Screen
+          name="DestinationInfo"
+          component={DestinationInfo}
           options={{ title: "Star Safari" }}
         />
         <Stack.Screen name="TravelDetails" component={TravelDetails} />
