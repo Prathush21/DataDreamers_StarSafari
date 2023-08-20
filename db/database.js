@@ -19,6 +19,40 @@ const getPlanets = (setUserFunc) => {
     );
   }
 
+
+  const getTrips = (setUserFunc) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select * from trip',
+          [],
+          (_, { rows: { _array } }) => {
+            setUserFunc(_array)
+          }
+        );
+      },
+      (t, error) => { console.log("db error load trips"); console.log(error) },
+      (_t, _success) => { console.log("trips loaded")}
+    );
+  }
+
+  const getVehicles = (setUserFunc) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select * from vehicle',
+          [],
+          (_, { rows: { _array } }) => {
+            setUserFunc(_array)
+          }
+        );
+      },
+      (t, error) => { console.log("db error load vehicles"); console.log(error) },
+      (_t, _success) => { console.log("vehicles loaded")}
+    );
+  }
+
+
   const getReservedSeats = (trip_id) => {
     return new Promise((resolve,reject) =>{
       db.transaction(
@@ -116,6 +150,7 @@ const getRowColumnCount = (vehicle_id) => {
         }
   
 
+
 const insertPlanet = (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) => {
     db.transaction(tx => {
         tx.executeSql(
@@ -144,7 +179,7 @@ const insertTrip = (
 ) => {
   db.transaction(tx => {
       tx.executeSql(
-          'INSERT INTO trip (vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count) VALUES (?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO trip (vehicle_id, departure_planet_id, destination_planet_id, price, departure_date, departure_time, trip_facilities, passenger_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
           [vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count],
           (_, { rowsAffected, insertId }) => {
               if (rowsAffected > 0) {
@@ -336,7 +371,8 @@ const setupDatabase = () => {
             price REAL,
             departure_planet_id TEXT,
             destination_planet_id TEXT,
-            departure_datetime TEXT,
+            departure_date TEXT,
+            departure_time TEXT,
             trip_facilities TEXT,
             passenger_count INTEGER,
             FOREIGN KEY(vehicle_id) REFERENCES vehicle(vehicle_id),
@@ -441,7 +477,7 @@ const setupDatabase = () => {
     .then((length) => {
       if (length ===0) {
         console.log("Initializing tables")
-        insertTrip(1, 2, 3, 250.0, '2023-09-01 10:00:00', 'Wi-Fi, Snacks', 5);
+        insertTrip(1, 2, 3, 250.0, '2023-09-01','10:00:00', 'Wi-Fi, Snacks', 5);
         insertBooking(1, 1, 1, 3, 'Upcoming', 2500.0, '1A,1B,1C')
         insertVehicle('NASA', 'nasa.png', 6, 5)
         insertVehicle('SpaceX', 'spacex.jpeg', 7, 4)
@@ -496,6 +532,8 @@ export const database = {
   dropDatabaseTables,
   tableExists,
   insertTrip,
+  getTrips,
+  getVehicles
   getReservedSeats,
   getTripAmount,
   getRowColumnCount
