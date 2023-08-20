@@ -153,22 +153,6 @@ const getRowColumnCount = (vehicle_id) => {
   
 
 
-const insertPlanet = (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) => {
-    db.transaction(tx => {
-        tx.executeSql(
-          'INSERT INTO planet (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) VALUES (?,?,?,?,?,?,?,?)',
-          [planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image],
-          (_, { rowsAffected, insertId }) => {
-            if (rowsAffected > 0) {
-              console.log("Planet record inserted with ID:", {insertId});
-            }
-          },
-          (_, error) => {
-            console.log("Error inserting planet record:", error);
-          }
-        );
-      
-
 const insertPlanet = (
   planet_name,
   culture,
@@ -276,7 +260,7 @@ const insertVehicle = (vehicle_name, image, row_count, column_count) => {
         console.log("Error inserting vehicle record:", error);
       }
     );
- 
+    })}
 
 const insertUser = (first_name, last_name, address, contact_number) => {
   db.transaction((tx) => {
