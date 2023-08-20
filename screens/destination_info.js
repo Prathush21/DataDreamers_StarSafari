@@ -6,12 +6,10 @@ import {
   Pressable,
   Dimensions,
   View,
-  FlatList
+  FlatList,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
-
-
 
 const data = [
   {
@@ -33,28 +31,33 @@ const data = [
 
 const renderItem = ({ item }) => (
   <View style={styles.horizontalCard}>
-    <Image source={item.image} style={styles.cardImage} />
     <Text style={styles.cardTitle}>{item.title}</Text>
+    <Image source={item.image} style={styles.cardImage} />
   </View>
 );
 
-const DestinationInfo = () => (
-  <SafeAreaProvider style={{backgroundColor: '#F6FAFD'}}>
+const DestinationInfo = ({navigation}) => (
+  <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
     <Text style={styles.titleText}>Mars</Text>
     <Card style={styles.card}>
       <Image source={require("../assets/mars.gif")} style={styles.image} />
     </Card>
-    <Pressable style={styles.button}>
-      <Text>Book Now</Text>
-    </Pressable>
-    <View style={{ height:400, margin:15 }}>
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      horizontal
-      showsHorizontalScrollIndicator={true}
-    />
+
+    <View style={{ height: 400, margin: 15 }}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={true}
+      />
+      <Pressable style={styles.button}
+      onPress={() =>
+        navigation.navigate('TravelDetails')
+      }
+      >
+        <Text>Book Now</Text>
+      </Pressable>
     </View>
   </SafeAreaProvider>
 );
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
+    // fontFamily: "Raleway-Bold",
   },
 
   image: {
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     paddingVertical: 12,
-    borderRadius: 6,
+    borderRadius: 20,
     elevation: 3,
     backgroundColor: "#09E488",
     width: 200,
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
   },
 
   horizontalCard: {
-    backgroundColor: '#F6FAFD',
+    backgroundColor: "#F6FAFD",
     borderRadius: 10,
     marginHorizontal: 10,
   },
@@ -101,10 +105,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   cardTitle: {
-    marginTop: 10,
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center'
+    marginBottom: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontFamily: "Raleway-Italic",
   },
 });
 
