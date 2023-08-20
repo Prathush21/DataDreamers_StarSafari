@@ -3,11 +3,22 @@ import {
     View,
     Text,
     StyleSheet,
-    Image
+    Image,
+    TouchableOpacity
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Category = (props) => {
+
+    const navigation = useNavigation();
+
+    const handleCategoryClick = () => {
+        navigation.navigate("DestinationInfo", { planet: props.data });
+      };
+
         return (
+            <TouchableOpacity style={styles.categoryContainer} onPress={handleCategoryClick}>
+
             <View style={styles.view1}>
                 <View style={styles.view2} elevation={0} >
                     <Image source={props.imageUri}
@@ -17,6 +28,8 @@ const Category = (props) => {
                 <Text style={styles.text} >{props.name}</Text>
 
             </View>
+            </TouchableOpacity>
+
                                 
         );
     }
