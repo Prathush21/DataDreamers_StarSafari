@@ -12,8 +12,7 @@ const PaymentDetailScreen = () => {
   const [cvv, setCVV] = useState('');
 
   const [totalCost,setTotalCost]=useState(null)
-  const totalTax = 50;
-  const totalAmount = totalCost + totalTax;
+ 
 
   useEffect(() => {
     database.getTripAmount(1).then(price => {
@@ -37,6 +36,9 @@ const PaymentDetailScreen = () => {
     { label: 'PayPal', value: 'paypal' },
     
   ];
+
+  const totalTax = Math.floor((totalCost*10)/100);
+  const totalAmount = totalCost + totalTax;
 
 
   return (
