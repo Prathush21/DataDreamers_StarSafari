@@ -2,8 +2,8 @@
 
 
 1. __Clone the Git Repository__ 
-Begin by cloning our Git repository to your local machine. You can do this using the following command in your terminal:
-`git clone <repository_url>)`
+Begin by cloning our Git repository to your local machine. You can do this using the following command in your terminal:__
+`git clone <repository_url>)`__
 Replace <__repository_url__> with the actual URL of our Git repository.
 
 2. __Navigate to the Project Folder__
