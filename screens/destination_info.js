@@ -7,15 +7,13 @@ import {
   Dimensions,
   View,
   FlatList,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { database } from "../db/database";
-
-
 
 const data = [
   {
@@ -33,26 +31,24 @@ const data = [
 ];
 
 const imagesList = {
-  'Mars': {
-    'image': require('../assets/mars.gif'),
-    'culture': require('../assets/mars_culture.png'),
-    'climate': require('../assets/mars_climate.png'),
-    'tourist': require('../assets/mars_tourist.png')
-  },
-  
-  'Jupiter': {
-    'image': require('../assets/jupiter.gif'),
-    'culture': require('../assets/jupiter_culture.png'),
-    'climate': require('../assets/jupiter_climate.jpg'),
-    'tourist': require('../assets/jupiter_tourist.jpg')
+  Mars: {
+    image: require("../assets/mars.gif"),
+    culture: require("../assets/mars_culture.png"),
+    climate: require("../assets/mars_climate.png"),
+    tourist: require("../assets/mars_tourist.png"),
   },
 
-}
+  Jupiter: {
+    image: require("../assets/jupiter.gif"),
+    culture: require("../assets/jupiter_culture.png"),
+    climate: require("../assets/jupiter_climate.jpg"),
+    tourist: require("../assets/jupiter_tourist.jpg"),
+  },
+};
 
 const DestinationInfo = ({ route }) => {
   const navigation = useNavigation();
   const [trips, settrips] = React.useState();
-
 
   const planet = route.params.planet;
 
@@ -60,25 +56,32 @@ const DestinationInfo = ({ route }) => {
     database.getTrips(settrips);
   }, []);
 
-
   const renderItem = ({ item }) => (
+    <ImageBackground
+        source={require("../assets/images/nightsky.jpg")}
+        resizeMode="stretch"
+        style={styles.img}
+      >
     <View style={styles.horizontalCard}>
       <Text style={styles.cardTitle}>{item.title}</Text>
       {item.title === "Culture" && (
-          
-          <Image source={imagesList[planet.planet_name].culture} style={styles.cardImage} />
-  
-        )}
-         {item.title === "Climate" && (
-          
-          <Image source={imagesList[planet.planet_name].climate} style={styles.cardImage} />
-  
-        )}
-         {item.title === "Tourist Attractions" && (
-          
-          <Image source={imagesList[planet.planet_name].tourist} style={styles.cardImage} />
-  
-        )}
+        <Image
+          source={imagesList[planet.name].culture}
+          style={styles.cardImage}
+        />
+      )}
+      {item.title === "Climate" && (
+        <Image
+          source={imagesList[planet.name].climate}
+          style={styles.cardImage}
+        />
+      )}
+      {item.title === "Tourist Attractions" && (
+        <Image
+          source={imagesList[planet.name].tourist}
+          style={styles.cardImage}
+        />
+      )}
       {/* <Image source={imagesList[planet.planet_name].culture} style={styles.cardImage} /> */}
       <View style={styles.overlay}>
         {item.title === "Culture" && (
@@ -86,46 +89,59 @@ const DestinationInfo = ({ route }) => {
             <Text style={styles.overlayText}>{planet.culture}</Text>
           </View>
         )}
-        {item.title === 'Climate' && (
-    <View style={styles.overlay}>
-      <Text style={styles.overlayText}>{planet.climate}</Text>
-    </View>
-  )}
-   {item.title === 'Tourist Attractions' && (
-    <View style={styles.overlay}>
-      <Text style={styles.overlayText}>{planet.top_tourist_attraction}</Text>
-    </View>
-  )}
+        {item.title === "Climate" && (
+          <View style={styles.overlay}>
+            <Text style={styles.overlayText}>{planet.climate}</Text>
+          </View>
+        )}
+        {item.title === "Tourist Attractions" && (
+          <View style={styles.overlay}>
+            <Text style={styles.overlayText}>
+              {planet.top_tourist_attraction}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
+          </ImageBackground>
+
   );
 
   return (
     <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
       <ImageBackground
-            source={require("../assets/images/nightsky.jpg")}
-            resizeMode="stretch"
-            style={styles.img}>
-      <Text style={styles.titleText}>{planet.planet_name}</Text>
-      <Card style={styles.card}>
-        <Image source={imagesList[planet.planet_name].image} style={styles.image} />
-      </Card>
+        source={require("../assets/images/nightsky.jpg")}
+        resizeMode="stretch"
+        style={styles.img}
+      >
+        <Text style={styles.titleText}>{planet.name}</Text>
+        <Card style={styles.card}>
+          <Image
+            source={imagesList[planet.name].image}
+            style={styles.image}
+          />
+        </Card>
 
-      <View style={{ height: 400, margin: 15 }}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={true}
-        />
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("TravelDetails", {planet_name: planet.planet_name, trip: trips[0]})}
-        >
-          <Text>Book Now</Text>
-        </Pressable>
-      </View>
+        <View style={{ height: 400, margin: 15 }}>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={true}
+          />
+          <Pressable
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("TravelDetails", {
+                planet: planet,
+                trip: trips[0],
+              })
+            }
+          >
+            <Text>Book Now</Text>
+          </Pressable>
+        </View>
       </ImageBackground>
     </SafeAreaProvider>
   );
@@ -136,12 +152,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
+    color: "white",
+
     // fontFamily: "Raleway-Bold",
   },
 
   image: {
     width: 200,
-    height:200,
+    height: 200,
     resizeMode: "cover",
     alignSelf: "center",
     margin: 10,
@@ -165,7 +183,6 @@ const styles = StyleSheet.create({
   },
 
   horizontalCard: {
-    backgroundColor: "#F6FAFD",
     borderRadius: 10,
     marginHorizontal: 10,
   },
@@ -181,6 +198,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "Raleway-Italic",
+    color: "white",
   },
 
   overlay: {

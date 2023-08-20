@@ -3,9 +3,12 @@ import { View, Text, TextInput, Button, StyleSheet, Pressable,TouchableOpacity,I
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
 
-const PersonalInfo = () => {
+const PersonalInfo = ({route}) => {
+  const { planet_name, trip, traveller_count, selected_seats } = route.params;
+
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [contactNumber, setContactNumber] = useState('');
@@ -13,7 +16,9 @@ const PersonalInfo = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [dob, setDOB] = useState(new Date());
 
-  const [passengers, setPassengers] = useState(Array(2).fill({ name: '', passportNumber: '' }));
+  const [passengers, setPassengers] = useState(Array(traveller_count).fill({ name: '', passportNumber: '' }));
+
+  const navigation = useNavigation();
 
   const handleDOBChange = (_, selectedDOB) => {
     const currentDOB = selectedDOB || dob;
@@ -33,7 +38,18 @@ const PersonalInfo = () => {
 
   const handlePersonalInfo = () => {
     console.log('INFO: Submitted personal info');
-    console.log(fullName);
+    console.log(passengers);
+
+    const outputArray = passengers.map(item => [item.name,item.passportNumber]);
+    console.log (outputArray)
+
+    navigation.navigate("PaymentDetailScreen", {
+      planet_name: planet_name,
+      trip: trip,
+      traveller_count: traveller_count,
+      selected_seats: selected_seats,
+      passengers: outputArray,
+    })
   };
 
 
