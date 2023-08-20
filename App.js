@@ -57,6 +57,16 @@ export default function App() {
           component={DestinationInfo}
           options={{ title: "Star Safari" }}
         />
+         <Stack.Screen
+          name="SeatReservation"
+          component={SeatReservation}
+          options={{ title: "Star Safari" }}
+        />
+        <Stack.Screen
+          name="PersonalInfo"
+          component={PersonalInfo}
+          options={{ title: "Star Safari" }}
+        />
         <Stack.Screen name="TravelDetails" component={TravelDetails} />
       </Stack.Navigator>
     </NavigationContainer>

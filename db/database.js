@@ -20,12 +20,29 @@ const getPlanets = (setUserFunc) => {
 }
 
 
-const getVehicles = (setUserFunc) => {
+
+  const getTrips = (setUserFunc) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select * from trip',
+          [],
+          (_, { rows: { _array } }) => {
+            setUserFunc(_array)
+          }
+        );
+      },
+      (t, error) => { console.log("db error load trips"); console.log(error) },
+      (_t, _success) => { console.log("trips loaded")}
+    );
+  }
+
+  const getVehicles = (setUserFunc) => {
   db.transaction(
     (tx) => {
       tx.executeSql("select * from vehicle", [], (_, { rows: { _array } }) => {
         setUserFunc(_array);
-      });
+          });
     },
     (t, error) => {
       console.log("db error load vehicle");
@@ -36,6 +53,121 @@ const getVehicles = (setUserFunc) => {
     }
   );
 };
+
+
+  const getReservedSeats = (trip_id) => {
+    return new Promise((resolve,reject) =>{
+      db.transaction(
+        tx => {
+          tx.executeSql(
+            'select seat_id from booking where trip_id = ?',
+            [trip_id],
+            (_, {rows}) => {
+              if (rows.length>0){
+                const bookedSeats=rows.item(0).seat_id.split(',')
+                resolve(bookedSeats)
+
+              }
+              else{
+                resolve([])
+              }
+              
+            },
+            (_,error) =>{
+              console.log('Error fetching booked seats:',error)
+              reject(error)
+            },
+           
+          );
+        },
+      );
+  
+    })
+      
+    }
+
+  const getTripAmount = (trip_id) => {
+      return new Promise((resolve,reject) =>{
+        db.transaction(
+          tx => {
+            tx.executeSql(
+              'select price from trip where trip_id = ?',
+              [trip_id],
+              (_, {rows}) => {
+                if (rows.length>0){
+                  const price=rows.item(0).price
+                  resolve(price)
+  
+                }
+                else{
+                  resolve([])
+                }
+                
+              },
+              (_,error) =>{
+                console.log('Error fetching price:',error)
+                reject(error)
+              },
+             
+            );
+          },
+        );
+    
+      })
+        
+      }
+
+const getRowColumnCount = (vehicle_id) => {
+        return new Promise((resolve,reject) =>{
+          db.transaction(
+            tx => {
+              tx.executeSql(
+                'select row_count,column_count from vehicle where vehicle_id = ?',
+                [vehicle_id],
+                (_, {rows}) => {
+                  if (rows.length>0){
+                    const info={
+                      rowcount: rows.item(0).row_count,
+                      columncount: rows.item(0).column_count
+                    }
+                    resolve(info)
+    
+                  }
+                  else{
+                    resolve(null)
+                  }
+                  
+                },
+                (_,error) =>{
+                  console.log('Error fetching price:',error)
+                  reject(error)
+                },
+               
+              );
+            },
+          );
+      
+        })
+          
+        }
+  
+
+
+const insertPlanet = (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) => {
+    db.transaction(tx => {
+        tx.executeSql(
+          'INSERT INTO planet (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) VALUES (?,?,?,?,?,?,?,?)',
+          [planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image],
+          (_, { rowsAffected, insertId }) => {
+            if (rowsAffected > 0) {
+              console.log("Planet record inserted with ID:", {insertId});
+            }
+          },
+          (_, error) => {
+            console.log("Error inserting planet record:", error);
+          }
+        );
+      
 
 const insertPlanet = (
   planet_name,
@@ -81,27 +213,19 @@ const insertTrip = (
   trip_facilities,
   passenger_count
 ) => {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "INSERT INTO trip (vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [
-        vehicle_id,
-        departure_planet_id,
-        destination_planet_id,
-        price,
-        departure_datetime,
-        trip_facilities,
-        passenger_count,
-      ],
-      (_, { rowsAffected, insertId }) => {
-        if (rowsAffected > 0) {
-          console.log("Trip record inserted with ID:", { insertId });
-        }
-      },
-      (_, error) => {
-        console.log("Error inserting trip record:", error);
-      }
-    );
+   db.transaction(tx => {
+      tx.executeSql(
+          'INSERT INTO trip (vehicle_id, departure_planet_id, destination_planet_id, price, departure_date, departure_time, trip_facilities, passenger_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+          [vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count],
+          (_, { rowsAffected, insertId }) => {
+              if (rowsAffected > 0) {
+                  console.log("Trip record inserted with ID:", {insertId});
+              }
+          },
+          (_, error) => {
+              console.log("Error inserting trip record:", error);
+          }
+      );
   });
 };
 
@@ -152,8 +276,7 @@ const insertVehicle = (vehicle_name, image, row_count, column_count) => {
         console.log("Error inserting vehicle record:", error);
       }
     );
-  });
-};
+ 
 
 const insertUser = (first_name, last_name, address, contact_number) => {
   db.transaction((tx) => {
@@ -296,7 +419,8 @@ const setupDatabase = () => {
             price REAL,
             departure_planet_id TEXT,
             destination_planet_id TEXT,
-            departure_datetime TEXT,
+            departure_date TEXT,
+            departure_time TEXT,
             trip_facilities TEXT,
             passenger_count INTEGER,
             FOREIGN KEY(vehicle_id) REFERENCES vehicle(vehicle_id),
@@ -461,6 +585,7 @@ const setupDatabase = () => {
           "earth_climate.jpg",
           "earth_attraction.jpg"
         );
+
       }
     })
     .catch((error) => {
@@ -499,4 +624,9 @@ export const database = {
   tableExists,
   insertTrip,
   getVehicles,
+  getTrips,
+  getVehicles,
+  getReservedSeats,
+  getTripAmount,
+  getRowColumnCount
 };
