@@ -3,23 +3,27 @@ import {
     Text,
     StyleSheet,
     Image,
-    View,
+    Pressable,
     ImageBackground
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
 import { database } from '../db/database';
 import ConfirmationRow from "../components/confirmationRow";
+import { useNavigation } from "@react-navigation/native";
 
 const BookingConfirmation = ({ route }) => {
 
     const [vehicleName, setVehicleName] = useState('');
 
     const vehicle_id = route.params.trip.vehicle_id
-    const planet_name = route.params.planet_name
+    console.log(route.params.planet)
+    const planet_name = route.params.planet.name
     const trip = route.params.trip
-    const traveller_count = route.params.passengers_count
+    const traveller_count = route.params.traveller_count
     const total_amount = route.params.total_amount
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         database.getVehicleName(vehicle_id).then(info => {
@@ -41,9 +45,17 @@ const BookingConfirmation = ({ route }) => {
                     <ConfirmationRow title='Planet' value={planet_name}></ConfirmationRow>
                     <ConfirmationRow title='Spaceline' value={vehicleName}></ConfirmationRow>
                     <ConfirmationRow title='Departure' value={trip.departure_date}></ConfirmationRow>
-                    <ConfirmationRow title='Price' value={total_amount}></ConfirmationRow>
+                    <ConfirmationRow title='Price' value={'$ ' + total_amount}></ConfirmationRow>
                     <ConfirmationRow title='Passengers' value={traveller_count}></ConfirmationRow>
                 </Card>
+                <Pressable
+                    style={styles.confirmbutton}
+                    onPress={() =>
+                        navigation.navigate("Home", {})
+                    }
+                >
+                    <Text>Ok</Text>
+                </Pressable>
             </ImageBackground>
         </SafeAreaProvider >
     );
@@ -62,7 +74,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         alignSelf: "center",
         margin: 10,
-        height: 300,
+        height: 200,
         width: 200
     },
     card: {
@@ -72,7 +84,7 @@ const styles = StyleSheet.create({
         height: '40%',
         width: '90%',
         marginTop: 10,
-        marginBottom: 10,
+        marginBottom: 30,
     },
     row: {
         flexDirection: 'row',
@@ -93,7 +105,18 @@ const styles = StyleSheet.create({
         flex: 0.25,
         marginLeft: 20,
         width: 5
-    }
+    },
+    confirmbutton: {
+        alignItems: "center",
+        paddingVertical: 12,
+        borderRadius: 20,
+        elevation: 3,
+        backgroundColor: "#09E488",
+        width: 125,
+        alignSelf: "center",
+        marginLeft: 20,
+        marginBottom: 50
+      },
 });
 
 export default BookingConfirmation;

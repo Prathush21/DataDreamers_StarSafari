@@ -24,6 +24,7 @@ const HomeScreen = () => {
     <ImageBackground
       source={require("../assets/images/nightsky.jpg")}
       style={styles.container}
+
     >
     <ScrollView >
       
@@ -44,11 +45,7 @@ const styles = StyleSheet.create({
   }
 });
 
-// const styles = StyleSheet.create({
-//   backgroundImage: {
-//     flex: 1,
-//     resizeMode: "cover", // You can change the resizeMode as needed
-//   },
-// });
+
+
 
 export default HomeScreen;

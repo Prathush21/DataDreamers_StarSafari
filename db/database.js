@@ -157,12 +157,12 @@ const getVehicleName = (vehicle_id) => {
     db.transaction(
       tx => {
         tx.executeSql(
-          'select vehicle_name from vehicle where vehicle_id = ?',
+          'select name from vehicle where vehicle_id = ?',
           [vehicle_id],
           (_, { rows }) => {
             if (rows.length > 0) {
               const info = {
-                vehiclename: rows.item(0).vehicle_name,
+                vehiclename: rows.item(0).name,
               }
               resolve(info)
             }

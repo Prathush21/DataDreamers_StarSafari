@@ -10,6 +10,7 @@ const TransparentAppBar = () => (
       <Appbar.Action icon="magnify" onPress={() => {}} />
     </Appbar.Header>
   </View>
+
 );
 
 const styles = StyleSheet.create({
