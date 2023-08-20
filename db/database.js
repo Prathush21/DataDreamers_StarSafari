@@ -51,7 +51,7 @@ const insertTrip = (
           [vehicle_id, departure_planet_id, destination_planet_id, price, departure_datetime, trip_facilities, passenger_count],
           (_, { rowsAffected, insertId }) => {
               if (rowsAffected > 0) {
-                  console.log("Trip record inserted with ID:", insertId);
+                  console.log("Trip record inserted with ID:", {insertId});
               }
           },
           (_, error) => {
@@ -76,6 +76,20 @@ const dropDatabaseTables =  () => {
             }
           );
         });
+
+        db.transaction((tx) => {
+          tx.executeSql(
+            "Drop TABLE trip",
+            [],
+            () => {
+              console.log("Trip Table dropped successfully.");
+            },
+            (error) => {
+              console.log("Error dropping Trip table:", error);
+            }
+          );
+        });
+
       } catch (error) {
         console.log("Error executing SQL statement:", error);
       }
