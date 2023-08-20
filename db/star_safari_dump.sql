@@ -1,14 +1,14 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "vehicle" (
 	"vehicle_id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"vehicle_name" TEXT,
+	"name" TEXT,
 	"vehicle_image" TEXT,
 	"row_count"	INTEGER,
 	"column_count"	INTEGER
 );
 CREATE TABLE IF NOT EXISTS "planet" (
 	"planet_id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"planet_name"	TEXT,
+	"name"	TEXT,
 	"culture"	TEXT,
 	"climate"	TEXT,
 	"top_tourist_attraction"	TEXT,

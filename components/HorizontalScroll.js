@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import Category from "./category";
+import { imageMapping } from "../assets/image-mapping";
 const { height, width } = Dimensions.get("window");
 
 const HorizontalScroll = (props) => {
@@ -30,9 +31,9 @@ const HorizontalScroll = (props) => {
               return (
                 <Category
                   key={index}
-                  imageUri={require("../assets/images/nasa.jpg")}
-                  name={object.planet_name}
-                  data = {object}
+                  imageUri={imageMapping[object.name]}
+                  name={object.name}
+                  data={object}
                 />
               );
             })}
@@ -54,6 +55,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20},
+  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20 },
 });
 export default HorizontalScroll;
