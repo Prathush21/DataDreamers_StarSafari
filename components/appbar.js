@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
+
 const TransparentAppBar = () => (
   <View style={styles.appBarContainer}>
     <Appbar.Header style={styles.transparentAppBar}>
@@ -10,7 +11,6 @@ const TransparentAppBar = () => (
       <Appbar.Action icon="magnify" onPress={() => {}} />
     </Appbar.Header>
   </View>
-
 );
 
 const styles = StyleSheet.create({
