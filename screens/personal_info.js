@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 const PersonalInfo = ({route}) => {
-  const { planet_name, trip, traveller_count, selected_seats } = route.params;
+  const { planet, trip, traveller_count, selected_seats } = route.params;
 
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
@@ -19,6 +19,8 @@ const PersonalInfo = ({route}) => {
   const [passengers, setPassengers] = useState(Array(traveller_count).fill({ name: '', passportNumber: '' }));
 
   const navigation = useNavigation();
+
+  console.log('From Personal Info: ', traveller_count)
 
   const handleDOBChange = (_, selectedDOB) => {
     const currentDOB = selectedDOB || dob;
@@ -44,7 +46,7 @@ const PersonalInfo = ({route}) => {
     console.log (outputArray)
 
     navigation.navigate("PaymentDetailScreen", {
-      planet_name: planet_name,
+      planet: planet,
       trip: trip,
       traveller_count: traveller_count,
       selected_seats: selected_seats,
@@ -141,7 +143,7 @@ const PersonalInfo = ({route}) => {
 
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <Pressable style={styles.confirmbutton} onPress={handlePersonalInfo}>
-          <Text>Confirm</Text>
+          <Text>Next</Text>
         </Pressable>
       </View>
 

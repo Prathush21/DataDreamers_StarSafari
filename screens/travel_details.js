@@ -25,7 +25,7 @@ const TravelDetails = ({ route }) => {
   const [timeList, setTimeList] = React.useState();
   const navigation = useNavigation();
 
-  const planet_name = route.params.planet_name;
+  const planet = route.params.planet;
   const trip = route.params.trip;
 
   useEffect(() => {
@@ -184,7 +184,7 @@ const TravelDetails = ({ route }) => {
             style={styles.image2}
           />
 
-          <Text style={{ fontSize: 20, marginTop: 4 }}>{planet_name}</Text>
+          <Text style={{ fontSize: 20, marginTop: 4 }}>{planet.name}</Text>
         </View>
         <View
           style={{
@@ -196,7 +196,7 @@ const TravelDetails = ({ route }) => {
             USA Space Station
           </Text>
           <Text style={{ fontSize: 12, paddingLeft: 120 }}>
-            {planet_name} Space Station
+            {planet.name} Space Station
           </Text>
         </View>
         <Divider bold style={{ backgroundColor: "black" }} />
@@ -257,7 +257,7 @@ const TravelDetails = ({ route }) => {
         <Pressable
           style={styles.cancelbutton}
           onPress={() =>
-            navigation.navigate("DestinationInfo", { planet: planet_name })
+            navigation.navigate("DestinationInfo", { planet: planet })
           }
         >
           <Text>Cancel</Text>
@@ -266,13 +266,13 @@ const TravelDetails = ({ route }) => {
           style={styles.confirmbutton}
           onPress={() =>
             navigation.navigate("SeatReservation", {
-              planet_name: planet_name,
+              planet: planet,
               trip: trip,
               passengers_count: passengers,
             })
           }
         >
-          <Text>Confirm</Text>
+          <Text>Next</Text>
         </Pressable>
       </View>
     </SafeAreaProvider>

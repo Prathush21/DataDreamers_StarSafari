@@ -8,8 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const PaymentDetailScreen = ({route}) => {
 
-  const { planet_name, trip, traveller_count, selected_seats,passengers } = route.params;
+  const { planet, trip, traveller_count, selected_seats,passengers } = route.params;
   const [paymentOption, setPaymentOption] = useState('payOnArrival');
+  const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
@@ -46,7 +47,7 @@ const PaymentDetailScreen = ({route}) => {
       return Promise.all(promises).then(()=>{
         console.log('All data inserted')
         navigation.navigate("BookingConfirmation", {
-          planet_name: planet_name,
+          planet: planet,
           trip: trip,
           traveller_count: traveller_count,
           total_amount: totalAmount
@@ -73,11 +74,10 @@ const PaymentDetailScreen = ({route}) => {
     <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
       <View
         style={{
-          margin: 20,
+          margin: 10,
           borderStyle: "solid",
           borderWidth: 1,
           borderRadius: 7,
-          paddingBottom: 20,
         }}
       >
         <Text style={styles.header}>Payment Details</Text>
@@ -124,8 +124,8 @@ const PaymentDetailScreen = ({route}) => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter cardholder name"
-                value={cardNumber}
-                onChangeText={setCardNumber}
+                value={cardName}
+                onChangeText={setCardName}
               />
             </View>
             <View style={styles.formField}>

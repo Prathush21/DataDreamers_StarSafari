@@ -11,7 +11,7 @@ const SeatReservation = ({route}) => {
   const [columncount,setColumnCount]=useState(null)
 
   const vehicle_id=route.params.trip.vehicle_id
-  const planet_name=route.params.planet_name
+  const planet=route.params.planet
   const trip =route.params.trip
   const traveller_count= route.params.passengers_count
 
@@ -59,7 +59,7 @@ const SeatReservation = ({route}) => {
     console.log(selectedSeats)
     const selectedSeatsFinal=selectedSeats.join(',')
     navigation.navigate("PersonalInfo", {
-      planet_name: planet_name,
+      planet: planet,
       trip: trip,
       traveller_count: traveller_count,
       selected_seats: selectedSeatsFinal
@@ -160,6 +160,8 @@ const SeatReservation = ({route}) => {
             borderWidth: 1,
             borderRadius: 7,
             paddingBottom: 20,
+            paddingLeft:10,
+            paddingRight:10,
             marginBottom:20
             
           }}
@@ -167,7 +169,7 @@ const SeatReservation = ({route}) => {
         <View >
 
           <Pressable style={styles.confirmbutton} onPress={handleReservation}>
-            <Text>Confirm</Text>
+            <Text>Next</Text>
           </Pressable>
         </View>
       </View>
@@ -185,14 +187,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
-    paddingTop: 40,
+    paddingTop: 20,
     alignItems: 'center',
     // justifyContent: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   label: {
     fontSize: 24,
@@ -258,6 +260,7 @@ const styles = StyleSheet.create({
     width: 155,
     alignSelf: "center",
     marginLeft: 20,
+    marginBottom:20
   },
 
 });

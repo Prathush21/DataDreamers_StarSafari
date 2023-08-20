@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 
 const AppBar = () => (
-  <Appbar.Header style={{backgroundColor:'#F6FAFD'}}>
-    {/* <Appbar.BackAction onPress={() => {}} /> */}
-    <Appbar.Action icon="menu" onPress={() => {}} />
+  <Appbar.Header style={{backgroundColor: 'black'}}>
+    <Appbar.Action color= 'white' icon="menu" onPress={() => {}} />
 
-    <Appbar.Content title="Star Safari" />
-    <Appbar.Action icon="magnify" onPress={() => {}} />
+    <Appbar.Content color= 'white' title="Star Safari" />
+    <Appbar.Action color= 'white' icon="magnify" onPress={() => {}} />
   </Appbar.Header>
 );
 
