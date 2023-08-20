@@ -11,37 +11,30 @@ import Category from "./category";
 const { height, width } = Dimensions.get("window");
 
 const HorizontalScroll = (props) => {
+  if (!props.objects) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
-    <ScrollView >
+    <ScrollView>
       <View style={styles.view1}>
-        <Text
-          style={styles.title}
-        >
-          {props.title}
-        </Text>
+        <Text style={styles.title}>{props.title}</Text>
 
         <View style={styles.view2}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true} scrollEventThrottle={16}>
-            <Category
-              imageUri={require("../assets/images/nasa.jpg")}
-              name="Home"
-            />
-            <Category
-              imageUri={require("../assets/images/nasa.jpg")}
-              name="Experiences"
-            />
-            <Category
-              imageUri={require("../assets/images/nasa.jpg")}
-              name="Resturant"
-            />
-            <Category
-              imageUri={require("../assets/images/nasa.jpg")}
-              name="Resturant"
-            />
-            <Category
-              imageUri={require("../assets/images/nasa.jpg")}
-              name="Resturant"
-            />
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={true}
+            scrollEventThrottle={16}
+          >
+            {props.objects.map((object, index) => {
+              return (
+                <Category
+                  key={index}
+                  imageUri={require("../assets/images/nasa.jpg")}
+                  name={object.planet_name}
+                />
+              );
+            })}
           </ScrollView>
         </View>
       </View>
@@ -50,15 +43,16 @@ const HorizontalScroll = (props) => {
 };
 
 const styles = StyleSheet.create({
-  view1: { 
-    flex: 1, 
-    backgroundColor: "white", 
-    paddingTop: 20 
-},
-view2:{
-    height: 150, marginTop: 20 
-},
-  
-  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20, fontFamily:'Raleway-Medium' },
+  view1: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 20,
+  },
+  view2: {
+    height: 150,
+    marginTop: 20,
+  },
+
+  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20},
 });
 export default HorizontalScroll;
