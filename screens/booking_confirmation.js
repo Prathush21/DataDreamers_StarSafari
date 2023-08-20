@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import {
     Text,
     StyleSheet,
@@ -8,80 +8,46 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
+import { database } from '../db/database';
+import ConfirmationRow from "../components/confirmationRow";
 
-const BookingConfirmation = () => (
-    <SafeAreaProvider>
-        <ImageBackground
-            source={require("../assets/images/nightsky.jpg")}
-            resizeMode="stretch"
-            style={styles.img}>
-            <Text style={styles.titleText}>Booking Confirmation</Text>
-            <Image source={require("../assets/mars.gif")} style={styles.image} />
-            <Card style={styles.card}>
-                <View style={styles.row}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Planet</Text>
-                    </View>
-                    <View style={styles.columnMiddle}>
-                        <Text style={styles.columnText}>:</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Mars</Text>
-                    </View>
-                </View>
+const BookingConfirmation = ({ route }) => {
 
-                <View style={styles.row}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Spaceline</Text>
-                    </View>
-                    <View style={styles.columnMiddle}>
-                        <Text style={styles.columnText}>:</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>NASA</Text>
-                    </View>
-                </View>
+    const [vehicleName, setVehicleName] = useState('');
 
-                <View style={styles.row}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Departure</Text>
-                    </View>
-                    <View style={styles.columnMiddle}>
-                        <Text style={styles.columnText}>:</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>18/08/2023</Text>
-                    </View>
-                </View>
+    const vehicle_id = route.params.trip.vehicle_id
+    const planet_name = route.params.planet_name
+    const trip = route.params.trip
+    const traveller_count = route.params.passengers_count
+    const total_amount = route.params.total_amount
 
-                <View style={styles.row}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Price</Text>
-                    </View>
-                    <View style={styles.columnMiddle}>
-                        <Text style={styles.columnText}>:</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>10 million</Text>
-                    </View>
-                </View>
+    useEffect(() => {
+        database.getVehicleName(vehicle_id).then(info => {
+            setVehicleName(info.vehiclename)
+            console.log('vehicle name: ', info)
+        })
 
-                <View style={styles.row}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>Passengers</Text>
-                    </View>
-                    <View style={styles.columnMiddle}>
-                        <Text style={styles.columnText}>:</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnText}>2</Text>
-                    </View>
-                </View>
+    }, [])
 
-            </Card>
-        </ImageBackground>
-    </SafeAreaProvider>
-);
+    return (
+        < SafeAreaProvider >
+            <ImageBackground
+                source={require("../assets/images/nightsky.jpg")}
+                resizeMode="stretch"
+                style={styles.img}>
+                <Text style={styles.titleText}>Booking Confirmation</Text>
+                <Image source={require("../assets/mars.gif")} style={styles.image} />
+                <Card style={styles.card}>
+                    <ConfirmationRow title='Planet' value={planet_name}></ConfirmationRow>
+                    <ConfirmationRow title='Spaceline' value={vehicleName}></ConfirmationRow>
+                    <ConfirmationRow title='Departure' value={trip.departure_date}></ConfirmationRow>
+                    <ConfirmationRow title='Price' value={total_amount}></ConfirmationRow>
+                    <ConfirmationRow title='Passengers' value={traveller_count}></ConfirmationRow>
+                </Card>
+            </ImageBackground>
+        </SafeAreaProvider >
+    );
+};
 
 const styles = StyleSheet.create({
     titleText: {
