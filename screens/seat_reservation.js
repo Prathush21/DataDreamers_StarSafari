@@ -11,7 +11,7 @@ const SeatReservation = ({route}) => {
   const [columncount,setColumnCount]=useState(null)
 
   const vehicle_id=route.params.trip.vehicle_id
-  const planet_name=route.params.planet_name
+  const planet=route.params.planet
   const trip =route.params.trip
   const traveller_count= route.params.passengers_count
 
@@ -59,7 +59,7 @@ const SeatReservation = ({route}) => {
     console.log(selectedSeats)
     const selectedSeatsFinal=selectedSeats.join(',')
     navigation.navigate("PersonalInfo", {
-      planet_name: planet_name,
+      planet: planet,
       trip: trip,
       traveller_count: traveller_count,
       selected_seats: selectedSeatsFinal
