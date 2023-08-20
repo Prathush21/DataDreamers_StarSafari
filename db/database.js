@@ -19,11 +19,11 @@ const getPlanets = (setUserFunc) => {
     );
   }
 
-const insertPlanet = (name) => {
+const insertPlanet = (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) => {
     db.transaction(tx => {
         tx.executeSql(
-          'INSERT INTO planet (planet_name) VALUES (?)',
-          [name],
+          'INSERT INTO planet (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) VALUES (?,?,?,?,?,?,?,?)',
+          [planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image],
           (_, { rowsAffected, insertId }) => {
             if (rowsAffected > 0) {
               console.log("Planet record inserted with ID:", {insertId});
@@ -220,7 +220,7 @@ const setupDatabase = () => {
   try {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS planet ( planet_id	INTEGER primary key , planet_name	TEXT, culture	TEXT, climate	TEXT, top_tourist_attraction	TEXT, image	BLOB, culture_image	BLOB, climate_image	BLOB, top_tourist_attraction_image	BLOB)",
+        "CREATE TABLE IF NOT EXISTS planet ( planet_id	INTEGER primary key , planet_name	TEXT, culture	TEXT, climate	TEXT, top_tourist_attraction	TEXT, image	TEXT, culture_image	TEXT, climate_image	TEXT, top_tourist_attraction_image	TEXT)",
         [],
         () => {
           console.log("Planet Table created successfully.");
@@ -344,8 +344,6 @@ const setupDatabase = () => {
     .then((length) => {
       if (length ===0) {
         console.log("Initializing tables")
-        insertPlanet("Jupiter")
-        insertPlanet("mars")
         insertTrip(1, 2, 3, 250.0, '2023-09-01 10:00:00', 'Wi-Fi, Snacks', 5);
         insertBooking(1, 1, 1, 3, 'Upcoming', 2500.0, '1A,1B,1C')
         insertVehicle('NASA', 'nasa.png', 6, 5)
@@ -357,6 +355,9 @@ const setupDatabase = () => {
         insertPassenger('P12345', 1, 'Laksika')
         insertPassenger('P67890', 1, 'Niruthikka')
         insertPassenger('P24681', 1, 'Nishaanthini')
+        insertPlanet('Jupiter', 'Jovian culture remains speculative due to its inhospitable environment.', 'Jupiter is a gas giant with tumultuous storms and a lack of solid surface.', 'The massive Great Red Spot is a swirling storm that captivates astronomers.', 'jupiter.jpg', 'jupiter_culture.jpg', 'jupiter_climate.jpg', 'jupiter_attraction.jpg')
+        insertPlanet('Mars', 'Marsian culture has captured human imagination as a potential home for exploration.', 'Mars features a cold and arid climate with dusty landscapes.', 'Olympus Mons, the tallest volcano in the solar system, is a marvel to behold.', 'mars.gif', 'upscaled.png', 'mars_climate.png', 'tourist.png')
+
       }
     })
     .catch((error) => {
