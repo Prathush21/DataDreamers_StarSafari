@@ -160,6 +160,8 @@ const SeatReservation = ({route}) => {
             borderWidth: 1,
             borderRadius: 7,
             paddingBottom: 20,
+            paddingLeft:10,
+            paddingRight:10,
             marginBottom:20
             
           }}
@@ -185,14 +187,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
-    paddingTop: 40,
+    paddingTop: 20,
     alignItems: 'center',
     // justifyContent: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   label: {
     fontSize: 24,
@@ -258,6 +260,7 @@ const styles = StyleSheet.create({
     width: 155,
     alignSelf: "center",
     marginLeft: 20,
+    marginBottom:20
   },
 
 });

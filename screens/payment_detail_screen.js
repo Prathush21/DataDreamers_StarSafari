@@ -74,11 +74,10 @@ const PaymentDetailScreen = ({route}) => {
     <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
       <View
         style={{
-          margin: 20,
+          margin: 10,
           borderStyle: "solid",
           borderWidth: 1,
           borderRadius: 7,
-          paddingBottom: 20,
         }}
       >
         <Text style={styles.header}>Payment Details</Text>
