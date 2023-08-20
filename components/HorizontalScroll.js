@@ -48,7 +48,7 @@ const HorizontalScroll = (props) => {
 const styles = StyleSheet.create({
   view1: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     paddingTop: 20,
   },
   view2: {
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20 },
+  title: { fontSize: 24, fontWeight: "700", paddingHorizontal: 20, color:"white" },
 });
 export default HorizontalScroll;

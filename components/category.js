@@ -41,5 +41,5 @@ const styles = StyleSheet.create({
     view1: { height: 150, width: 130, marginLeft: 20, },
     view2: { flex: 2, borderWidth: 0.5, borderColor: '#dddddd', borderRadius:10,},
     image: { flex: 1, width: null, height: null, resizeMode: 'cover', margin:10},
-    text: {textAlign:'center', marginTop:2}
+    text: {textAlign:'center', marginTop:2, color:"white"}
 });
