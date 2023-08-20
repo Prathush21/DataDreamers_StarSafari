@@ -19,6 +19,103 @@ const getPlanets = (setUserFunc) => {
     );
   }
 
+  const getReservedSeats = (trip_id) => {
+    return new Promise((resolve,reject) =>{
+      db.transaction(
+        tx => {
+          tx.executeSql(
+            'select seat_id from booking where trip_id = ?',
+            [trip_id],
+            (_, {rows}) => {
+              if (rows.length>0){
+                const bookedSeats=rows.item(0).seat_id.split(',')
+                resolve(bookedSeats)
+
+              }
+              else{
+                resolve([])
+              }
+              
+            },
+            (_,error) =>{
+              console.log('Error fetching booked seats:',error)
+              reject(error)
+            },
+           
+          );
+        },
+      );
+  
+    })
+      
+    }
+
+  const getTripAmount = (trip_id) => {
+      return new Promise((resolve,reject) =>{
+        db.transaction(
+          tx => {
+            tx.executeSql(
+              'select price from trip where trip_id = ?',
+              [trip_id],
+              (_, {rows}) => {
+                if (rows.length>0){
+                  const price=rows.item(0).price
+                  resolve(price)
+  
+                }
+                else{
+                  resolve([])
+                }
+                
+              },
+              (_,error) =>{
+                console.log('Error fetching price:',error)
+                reject(error)
+              },
+             
+            );
+          },
+        );
+    
+      })
+        
+      }
+
+const getRowColumnCount = (vehicle_id) => {
+        return new Promise((resolve,reject) =>{
+          db.transaction(
+            tx => {
+              tx.executeSql(
+                'select row_count,column_count from vehicle where vehicle_id = ?',
+                [vehicle_id],
+                (_, {rows}) => {
+                  if (rows.length>0){
+                    const info={
+                      rowcount: rows.item(0).row_count,
+                      columncount: rows.item(0).column_count
+                    }
+                    resolve(info)
+    
+                  }
+                  else{
+                    resolve(null)
+                  }
+                  
+                },
+                (_,error) =>{
+                  console.log('Error fetching price:',error)
+                  reject(error)
+                },
+               
+              );
+            },
+          );
+      
+        })
+          
+        }
+  
+
 const insertPlanet = (planet_name,culture, climate, top_tourist_attraction, image, culture_image, climate_image, top_tourist_attraction_image) => {
     db.transaction(tx => {
         tx.executeSql(
@@ -398,5 +495,8 @@ export const database = {
   setupDatabase,
   dropDatabaseTables,
   tableExists,
-  insertTrip
+  insertTrip,
+  getReservedSeats,
+  getTripAmount,
+  getRowColumnCount
 };

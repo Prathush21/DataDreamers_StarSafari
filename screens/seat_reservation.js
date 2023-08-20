@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Button, Pressable } from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { database } from '../db/database';
 
 const SeatReservation = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [reservedSeats,setReservedSeats] = useState([])
+  const [rowcount,setRowCount]=useState(null)
+  const [columncount,setColumnCount]=useState(null)
 
-  const reservedSeats = ['2A','4B']
+  const vehicle_id=1
+
+  useEffect(() => {
+    database.getReservedSeats(1).then(bookedSeats => {
+      console.log('booked seats:',bookedSeats)
+      setReservedSeats(bookedSeats)
+    })
+
+    database.getRowColumnCount(vehicle_id).then(info => {
+      setRowCount(info.rowcount)
+      setColumnCount(info.columncount)
+      console.log(info)
+
+      })
+
+    
+      
+    
+  }, [])
+
+
+  // const reservedSeats = ['2A','4B']
 
   const seatLabels = ['A', 'B', 'C', 'D'];
 
@@ -35,7 +60,7 @@ const SeatReservation = () => {
   };
 
   const renderSeats = () => {
-    const rows = 5;
+    const rows = rowcount;
     const leftColumns = 2;
     const rightColumns = 2;
     const gapWidth = 20;
