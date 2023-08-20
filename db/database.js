@@ -81,75 +81,105 @@ const getPlanets = (setUserFunc) => {
           );
         },
       );
-  
-    })
-      
-    }
+    },
+    (t, error) => { console.log("db error load planets"); console.log(error) },
+    (_t, _success) => { console.log("planets loaded") }
+  );
+}
 
-  const getTripAmount = (trip_id) => {
-      return new Promise((resolve,reject) =>{
-        db.transaction(
-          tx => {
-            tx.executeSql(
-              'select price from trip where trip_id = ?',
-              [trip_id],
-              (_, {rows}) => {
-                if (rows.length>0){
-                  const price=rows.item(0).price
-                  resolve(price)
-  
-                }
-                else{
-                  resolve([])
-                }
-                
-              },
-              (_,error) =>{
-                console.log('Error fetching price:',error)
-                reject(error)
-              },
-             
-            );
+const getTripAmount = (trip_id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select price from trip where trip_id = ?',
+          [trip_id],
+          (_, { rows }) => {
+            if (rows.length > 0) {
+              const price = rows.item(0).price
+              resolve(price)
+
+            }
+            else {
+              resolve([])
+            }
+
           },
+          (_, error) => {
+            console.log('Error fetching price:', error)
+            reject(error)
+          },
+
         );
-    
-      })
-        
-      }
+      },
+    );
+
+  })
+
+}
 
 const getRowColumnCount = (vehicle_id) => {
-        return new Promise((resolve,reject) =>{
-          db.transaction(
-            tx => {
-              tx.executeSql(
-                'select row_count,column_count from vehicle where vehicle_id = ?',
-                [vehicle_id],
-                (_, {rows}) => {
-                  if (rows.length>0){
-                    const info={
-                      rowcount: rows.item(0).row_count,
-                      columncount: rows.item(0).column_count
-                    }
-                    resolve(info)
-    
-                  }
-                  else{
-                    resolve(null)
-                  }
-                  
-                },
-                (_,error) =>{
-                  console.log('Error fetching price:',error)
-                  reject(error)
-                },
-               
-              );
-            },
-          );
-      
-        })
-          
-        }
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select row_count,column_count from vehicle where vehicle_id = ?',
+          [vehicle_id],
+          (_, { rows }) => {
+            if (rows.length > 0) {
+              const info = {
+                rowcount: rows.item(0).row_count,
+                columncount: rows.item(0).column_count
+              }
+              resolve(info)
+
+            }
+            else {
+              resolve(null)
+            }
+
+          },
+          (_, error) => {
+            console.log('Error fetching price:', error)
+            reject(error)
+          },
+
+        );
+      },
+    );
+
+  })
+
+}
+
+const getVehicleName = (vehicle_id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select vehicle_name from vehicle where vehicle_id = ?',
+          [vehicle_id],
+          (_, { rows }) => {
+            if (rows.length > 0) {
+              const info = {
+                vehiclename: rows.item(0).vehicle_name,
+              }
+              resolve(info)
+            }
+            else {
+              resolve(null)
+            }
+          },
+          (_, error) => {
+            console.log('Error fetching vehicle name:', error)
+            reject(error)
+          },
+        );
+      },
+    );
+  })
+}
+
 
 const getBookingId = (
           user_id,
@@ -651,5 +681,6 @@ export const database = {
   getReservedSeats,
   getTripAmount,
   getRowColumnCount,
-  getBookingId
+  getBookingId,
+  getVehicleName
 };

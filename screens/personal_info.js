@@ -141,7 +141,7 @@ const PersonalInfo = ({route}) => {
 
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <Pressable style={styles.confirmbutton} onPress={handlePersonalInfo}>
-          <Text>Confirm</Text>
+          <Text>Next</Text>
         </Pressable>
       </View>
 

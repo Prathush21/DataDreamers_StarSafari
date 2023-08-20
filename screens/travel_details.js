@@ -272,7 +272,7 @@ const TravelDetails = ({ route }) => {
             })
           }
         >
-          <Text>Confirm</Text>
+          <Text>Next</Text>
         </Pressable>
       </View>
     </SafeAreaProvider>
