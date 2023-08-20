@@ -46,11 +46,11 @@ export default function App() {
 
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator screenOptions={{ header: AppBar }} >
+      <Stack.Navigator screenOptions={{ header: AppBar }}>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "Star Safari",  }}
+          options={{ title: "Star Safari" }}
         />
         <Stack.Screen
           name="DestinationInfo"
