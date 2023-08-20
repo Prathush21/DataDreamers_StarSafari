@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SeatReservation from "./screens/seat_reservation";
 import PaymentDetailScreen from "./screens/payment_detail_screen";
 import BookingConfirmation from "./screens/booking_confirmation";
+import useDatabase from "./hooks/useDatabase";
 import * as Font from "expo-font";
 import { useState, useEffect } from "react";
 import { Text, View } from "react-native";
@@ -22,6 +23,11 @@ const MyTheme = {
 };
 
 export default function App() {
+  const dbLoaded = useDatabase();
+
+  if (!dbLoaded) {
+    return <Text>Initializing...</Text>;
+  }
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const fetchFonts = async () => {
@@ -50,7 +56,8 @@ export default function App() {
       <Stack.Navigator screenOptions={{ header: AppBar }}>
         <Stack.Screen
           name="Home"
-          component={DestinationInfo}
+          component={HomeScreen}
+
           options={{ title: "Star Safari" }}
         />
         <Stack.Screen name="TravelDetails" component={TravelDetails} />
