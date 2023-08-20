@@ -167,7 +167,7 @@ const SeatReservation = ({route}) => {
         <View >
 
           <Pressable style={styles.confirmbutton} onPress={handleReservation}>
-            <Text>Confirm</Text>
+            <Text>Next</Text>
           </Pressable>
         </View>
       </View>
