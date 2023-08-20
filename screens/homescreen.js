@@ -20,19 +20,27 @@ const HomeScreen = () => {
   }
   
   return (
-    
+    <ImageBackground
+      source={require("../assets/images/nightsky.jpg")}
+      style={styles.backgroundImage}
+    >
     <ScrollView >
       
-      <View style={{ flex: 1 , backgroundColor:'green'}}>
+      <View style={{ flex: 1 }}>
         <HorizontalScroll title="Planets" objects={planets}/>
         <HorizontalScroll title="Spacelines" objects={vehicles} />
       </View>
     </ScrollView>
-
+    </ImageBackground>
 
   );
 };
 
-
+const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover", // You can change the resizeMode as needed
+  },
+});
 
 export default HomeScreen;
