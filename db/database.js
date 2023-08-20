@@ -533,7 +533,7 @@ export const database = {
   tableExists,
   insertTrip,
   getTrips,
-  getVehicles
+  getVehicles,
   getReservedSeats,
   getTripAmount,
   getRowColumnCount
