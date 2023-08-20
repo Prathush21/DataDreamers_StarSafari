@@ -5,7 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 const SeatReservation = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  const reservedSeats = [5,10,15]
+  const reservedSeats = ['2A','4B']
 
   const seatLabels = ['A', 'B', 'C', 'D'];
 
@@ -18,10 +18,13 @@ const SeatReservation = () => {
       setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
     } else {
       setSelectedSeats([...selectedSeats, seatNumber]);
+      console.log(selectedSeats)
     }
+    
   };
 
   const handleReservation = () => {
+    console.log(selectedSeats)
 
   }
 
@@ -42,7 +45,7 @@ const SeatReservation = () => {
       const rowSeats = [];
 
       for (let col = 0; col < leftColumns; col++) {
-        const seatNumber = (row - 1) * (leftColumns + rightColumns) + col;
+        const seatNumber = getSeatLabel(row,col);
         const isSelected = selectedSeats.includes(seatNumber);
         const isReserved = reservedSeats.includes(seatNumber)
 
@@ -60,7 +63,7 @@ const SeatReservation = () => {
       rowSeats.push(<View style={{ width: gapWidth }} key={`gap-${row}`} />);
 
       for (let col = leftColumns; col < leftColumns + rightColumns; col++) {
-        const seatNumber = (row - 1) * (leftColumns + rightColumns) + col;
+        const seatNumber = getSeatLabel(row,col)
         const isSelected = selectedSeats.includes(seatNumber);
         const isReserved = reservedSeats.includes(seatNumber)
 
@@ -112,7 +115,7 @@ const SeatReservation = () => {
         >{renderSeats()}</View>
         <View >
 
-          <Pressable style={styles.confirmbutton}>
+          <Pressable style={styles.confirmbutton} onPress={handleReservation}>
             <Text>Confirm</Text>
           </Pressable>
         </View>
