@@ -2,14 +2,20 @@ import React, { useState,useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Button, Pressable } from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { database } from '../db/database';
+import { useNavigation } from "@react-navigation/native";
 
-const SeatReservation = () => {
+const SeatReservation = ({route}) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservedSeats,setReservedSeats] = useState([])
   const [rowcount,setRowCount]=useState(null)
   const [columncount,setColumnCount]=useState(null)
 
-  const vehicle_id=1
+  const vehicle_id=route.params.trip.vehicle_id
+  const planet_name=route.params.planet_name
+  const trip =route.params.trip
+  const traveller_count= route.params.passengers_count
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     database.getReservedSeats(1).then(bookedSeats => {
@@ -32,7 +38,7 @@ const SeatReservation = () => {
 
   // const reservedSeats = ['2A','4B']
 
-  const seatLabels = ['A', 'B', 'C', 'D'];
+  const seatLabels = ['A', 'B', 'C', 'D','E','F','G'];
 
   const handleSeatSelection = (seatNumber) => {
     if (reservedSeats.includes(seatNumber)){
@@ -42,14 +48,23 @@ const SeatReservation = () => {
     if (selectedSeats.includes(seatNumber)) {
       setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
     } else {
-      setSelectedSeats([...selectedSeats, seatNumber]);
-      console.log(selectedSeats)
+      if (selectedSeats.length < parseInt(traveller_count))
+        setSelectedSeats([...selectedSeats, seatNumber]);
+        console.log(selectedSeats)
     }
     
   };
 
   const handleReservation = () => {
     console.log(selectedSeats)
+    const selectedSeatsFinal=selectedSeats.join(',')
+    navigation.navigate("PersonalInfo", {
+      planet_name: planet_name,
+      trip: trip,
+      traveller_count: traveller_count,
+      selected_seats: selectedSeatsFinal
+    })
+
 
   }
 
@@ -61,8 +76,17 @@ const SeatReservation = () => {
 
   const renderSeats = () => {
     const rows = rowcount;
-    const leftColumns = 2;
-    const rightColumns = 2;
+    var leftColumns = 2;
+    var rightColumns = 2;
+    if (columncount%2==0){
+      leftColumns=Math.floor(columncount/2)
+      rightColumns=Math.floor(columncount/2)
+    }
+    else{
+      leftColumns=Math.floor(columncount/2)
+      rightColumns=columncount - leftColumns
+    }
+    
     const gapWidth = 20;
     const seats = [];
 
@@ -113,12 +137,14 @@ const SeatReservation = () => {
     return seats;
   };
 
+  const travel_string= 'Number of Passengers: ' + traveller_count.toString()
+
   return (
     <SafeAreaProvider style={{ backgroundColor: "#F6FAFD" }}>
 
       <View style={styles.container}>
         <Text style={styles.title}>Choose Your Seats</Text>
-        <Text style={styles.label}>Number of Passengers: 1 Adult</Text>
+        <Text style={styles.label}>{travel_string}</Text>
         <View style={styles.legendContainer}>
           <View style={[styles.legendItem, styles.availableLegend]} />
           <Text style={styles.legendText}>Available</Text>
