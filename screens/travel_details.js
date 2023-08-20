@@ -17,12 +17,22 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 
-const TravelDetails = () => {
+const TravelDetails = ({navigation}) => {
   const [departureDate, setDepartureDate] = React.useState(new Date());
   const [travelDetails, onChangeTravelDetails] = React.useState(null);
-  const [selectedTime, setSelectedTime] = React.useState("Select Time");
-
+  const [selectedTime, setSelectedTime] = React.useState(null);
+  const [passengers, onChangePassengers] = React.useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+
+  const handleTimePress = (time) => {
+    if (selectedTime === time) {
+      setSelectedTime(null); // Reset the selected time if clicked again
+    } else {
+      setSelectedTime(time);
+    }
+  };
+
+  const isTimeSelected = (time) => selectedTime === time;
 
   function formatTimeToHoursMins(date) {
     const formattedTime = date.toLocaleTimeString([], {
@@ -44,6 +54,7 @@ const TravelDetails = () => {
     hideDatePicker();
     setSelectedTime(time);
   };
+  
 
   const styles = StyleSheet.create({
     titleText: {
@@ -127,6 +138,18 @@ const TravelDetails = () => {
       fontWeight: "bold",
       textAlign: "center",
     },
+
+    timeCard: {
+      alignItems: "center",
+      paddingVertical: 12,
+      borderRadius: 20,
+      elevation: 3,
+      backgroundColor: "#8E929B",
+      width: 125,
+      alignSelf: "center",
+      marginLeft: 20,
+    },
+
   });
 
   return (
@@ -138,6 +161,8 @@ const TravelDetails = () => {
           borderWidth: 1,
           borderRadius: 7,
           paddingBottom: 20,
+          marginBottom:10,
+          marginTop:5
         }}
       >
         <Card style={styles.card}>
@@ -192,20 +217,31 @@ const TravelDetails = () => {
           style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
         ></View>
         <Text style={{ marginLeft: 10, fontSize: 15, marginBottom:20 }}> Departure Time</Text>
-        <View style={{ flexDirection: "row"}}>
-          <Pressable style={styles.confirmbutton} onPress={showTimePicker}>
-            <Text>{selectedTime}</Text>
-          </Pressable>
+        <View style={{ flexDirection: "row" }}>
+      <Pressable
+        style={[
+          styles.timeCard,
+          { backgroundColor: isTimeSelected("08:00") ? "#09E488" : "#F6FAFD" },
+        ]}
+        onPress={() => handleTimePress("08:00")}
+      >
+        <Text style={{ color: isTimeSelected("08:00") ? "white" : "black", fontWeight: 'bold' }}>
+          08:00
+        </Text>
+      </Pressable>
 
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="time"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-            locale="en"
-          /> 
-          
-        </View>
+      <Pressable
+        style={[
+          styles.timeCard,
+          { backgroundColor: isTimeSelected("16:00") ? "#09E488" : "#F6FAFD" },
+        ]}
+        onPress={() => handleTimePress("16:00")}
+      >
+        <Text style={{ color: isTimeSelected("16:00") ? "white" : "black", fontWeight: 'bold' }}>
+          16:00
+        </Text>
+      </Pressable>
+    </View>
 
         <Text style={{ marginLeft: 10, fontSize: 15, marginTop:20 }}>
           {" "}
@@ -219,6 +255,22 @@ const TravelDetails = () => {
           numberOfLines={4}
           multiline = {true}
         />
+        <Text style={{ marginLeft: 10, fontSize: 15, marginTop:20 }}>
+          {" "}
+          Number of Passengers
+        </Text>
+
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePassengers}
+          value={travelDetails}
+          numberOfLines={4}
+          multiline = {true}
+          keyboardType="numeric"
+
+        />
+
+        
       </View>
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <Pressable style={styles.cancelbutton}>
